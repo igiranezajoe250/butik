@@ -187,8 +187,8 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
       </div>
 
-      {/* ─── Desktop: content panel on left half ─── */}
-      <div className="hidden lg:flex absolute inset-y-0 left-0 w-1/2 z-[5] items-center justify-center">
+      {/* ─── Desktop: content centered on full canvas ─── */}
+      <div className="hidden lg:flex absolute inset-0 z-[5] items-center justify-center">
         <div className={`text-center flex flex-col items-center transition-all duration-700 ${isTransitioning ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
           <h1
             className="text-[clamp(2.8rem,5vw,4.5rem)] font-semibold tracking-[0.06em] uppercase text-white leading-[0.95] mb-4 whitespace-pre-line drop-shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
