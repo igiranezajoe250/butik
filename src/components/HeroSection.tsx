@@ -49,6 +49,24 @@ const categories = [
     panelBg: "#F5F0EA",
     panelAccent: "#E8DDD0",
   },
+  {
+    id: "fragrance",
+    title: "FRAGRANCE",
+    subtitle: "Essence of nature",
+    image: "/boutiques.png",
+    imagePosition: "right" as const,
+    panelBg: "#EDE8E0",
+    panelAccent: "#DDD6CA",
+  },
+  {
+    id: "beauty",
+    title: "BEAUTY",
+    subtitle: "Pure radiance",
+    image: "/items.png",
+    imagePosition: "left" as const,
+    panelBg: "#E6EDE8",
+    panelAccent: "#D0DDD6",
+  },
 ];
 
 const results = [
