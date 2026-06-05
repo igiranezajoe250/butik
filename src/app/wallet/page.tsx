@@ -33,19 +33,19 @@ export default function WalletPage() {
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-16 py-8 sm:py-12">
 
         {/* Balance card */}
-        <div className="bg-ink text-white p-6 sm:p-10 mb-8 sm:mb-12 animate-fade-up">
-          <p className="text-[0.68rem] font-bold tracking-[0.16em] uppercase text-white/40 mb-2">Available Balance</p>
-          <p className="text-3xl sm:text-4xl lg:text-5xl font-medium leading-none mb-6" style={{ fontFamily: "var(--font-display)" }}>
+        <div className="bg-ink text-white p-6 sm:p-10 mb-8 sm:mb-12 rounded-2xl animate-fade-up">
+          <p className="text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-white/30 mb-2.5">Balance</p>
+          <p className="text-3xl sm:text-4xl lg:text-5xl font-normal leading-none mb-6 tabular-nums" style={{ fontFamily: "var(--font-display)" }}>
             RWF 582,000
           </p>
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            <button className="h-10 sm:h-11 px-5 sm:px-6 bg-white text-ink text-[0.68rem] font-bold tracking-[0.12em] uppercase hover:bg-white/90 transition-colors">
+            <button className="h-10 sm:h-11 px-5 sm:px-6 rounded-full bg-white text-ink text-[0.64rem] font-semibold tracking-[0.16em] uppercase hover:bg-white/92 transition-colors duration-200">
               Add Funds
             </button>
-            <button className="h-10 sm:h-11 px-5 sm:px-6 border border-white/20 text-white text-[0.68rem] font-bold tracking-[0.12em] uppercase hover:border-white/50 transition-colors">
+            <button className="h-10 sm:h-11 px-5 sm:px-6 rounded-full border border-white/16 text-white/80 text-[0.64rem] font-semibold tracking-[0.16em] uppercase hover:border-white/40 hover:text-white transition-all duration-200">
               Send
             </button>
-            <button className="h-10 sm:h-11 px-5 sm:px-6 border border-white/20 text-white text-[0.68rem] font-bold tracking-[0.12em] uppercase hover:border-white/50 transition-colors">
+            <button className="h-10 sm:h-11 px-5 sm:px-6 rounded-full border border-white/16 text-white/80 text-[0.64rem] font-semibold tracking-[0.16em] uppercase hover:border-white/40 hover:text-white transition-all duration-200">
               Withdraw
             </button>
           </div>
@@ -57,8 +57,8 @@ export default function WalletPage() {
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-4 sm:px-5 py-3 text-[0.68rem] sm:text-[0.72rem] font-bold tracking-[0.12em] uppercase transition-colors ${
-                tab === t ? "text-ink border-b-2 border-ink -mb-px" : "text-ink/35 hover:text-ink/60"
+              className={`px-4 sm:px-5 py-3 text-[0.66rem] sm:text-[0.7rem] font-semibold tracking-[0.14em] uppercase transition-colors duration-200 ${
+                tab === t ? "text-ink border-b-[1.5px] border-ink -mb-px" : "text-ink/30 hover:text-ink/55"
               }`}
             >
               {t}
@@ -70,8 +70,8 @@ export default function WalletPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 animate-fade-up">
             {/* Quick assets */}
             <div>
-              <h3 className="text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/50 mb-5">Your Assets</h3>
-              <div className="divide-y divide-ink/[0.06] border border-ink/[0.06]">
+              <h3 className="text-[0.62rem] font-semibold tracking-[0.18em] uppercase text-ink/35 mb-5">Your Assets</h3>
+              <div className="divide-y divide-ink/[0.05] rounded-2xl overflow-hidden border border-ink/[0.05] bg-white/40">
                 {assets.map((asset) => (
                   <div key={asset.symbol} className="flex items-center justify-between px-5 py-4">
                     <div className="flex items-center gap-4">
@@ -92,12 +92,12 @@ export default function WalletPage() {
             {/* Recent transactions */}
             <div>
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/50">Recent Activity</h3>
+                <h3 className="text-[0.62rem] font-semibold tracking-[0.18em] uppercase text-ink/35">Recent Activity</h3>
                 <button onClick={() => setTab("transactions")} className="text-[0.62rem] font-bold tracking-[0.1em] uppercase text-ink/30 hover:text-ink transition-colors">
                   View All
                 </button>
               </div>
-              <div className="divide-y divide-ink/[0.06] border border-ink/[0.06]">
+              <div className="divide-y divide-ink/[0.05] rounded-2xl overflow-hidden border border-ink/[0.05] bg-white/40">
                 {transactions.slice(0, 4).map((tx) => (
                   <TransactionRow key={tx.id} tx={tx} />
                 ))}
@@ -108,7 +108,7 @@ export default function WalletPage() {
 
         {tab === "transactions" && (
           <div className="max-w-[800px] animate-fade-up">
-            <div className="divide-y divide-ink/[0.06] border border-ink/[0.06]">
+            <div className="divide-y divide-ink/[0.05] rounded-2xl overflow-hidden border border-ink/[0.05] bg-white/40">
               {transactions.map((tx) => (
                 <TransactionRow key={tx.id} tx={tx} />
               ))}
@@ -120,7 +120,7 @@ export default function WalletPage() {
           <div className="max-w-[800px] animate-fade-up">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {assets.map((asset) => (
-                <div key={asset.symbol} className="border border-ink/[0.06] p-6 sm:p-8 bg-white/40">
+                <div key={asset.symbol} className="rounded-2xl border border-ink/[0.05] p-6 sm:p-8 bg-white/40">
                   <div className="w-12 h-12 rounded-full bg-ink/[0.06] flex items-center justify-center mb-5">
                     <span className="text-lg font-bold text-ink/60">{asset.icon}</span>
                   </div>
@@ -130,10 +130,10 @@ export default function WalletPage() {
                   </p>
                   <p className="text-[0.68rem] text-ink/40 mt-1">{asset.symbol}</p>
                   <div className="flex gap-2 mt-5">
-                    <button className="flex-1 h-9 bg-ink text-white text-[0.62rem] font-bold tracking-[0.1em] uppercase hover:bg-ink/90 transition-colors">
+                    <button className="flex-1 h-9 rounded-full bg-ink text-white text-[0.6rem] font-semibold tracking-[0.14em] uppercase hover:bg-ink/88 transition-all duration-200">
                       Send
                     </button>
-                    <button className="flex-1 h-9 border border-ink/15 text-ink text-[0.62rem] font-bold tracking-[0.1em] uppercase hover:border-ink/40 transition-colors">
+                    <button className="flex-1 h-9 rounded-full border border-ink/10 text-ink text-[0.6rem] font-semibold tracking-[0.14em] uppercase hover:border-ink/30 transition-all duration-200">
                       Receive
                     </button>
                   </div>
@@ -143,8 +143,8 @@ export default function WalletPage() {
 
             {/* Payment methods */}
             <div className="mt-10 sm:mt-12">
-              <h3 className="text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/50 mb-5">Payment Methods</h3>
-              <div className="divide-y divide-ink/[0.06] border border-ink/[0.06]">
+              <h3 className="text-[0.62rem] font-semibold tracking-[0.18em] uppercase text-ink/35 mb-5">Payment Methods</h3>
+              <div className="divide-y divide-ink/[0.05] rounded-2xl overflow-hidden border border-ink/[0.05] bg-white/40">
                 {[
                   { method: "MTN Mobile Money", detail: "078 *** ** 45", connected: true },
                   { method: "Airtel Money", detail: "073 *** ** 12", connected: true },
@@ -177,9 +177,9 @@ function TransactionRow({ tx }: { tx: (typeof transactions)[number] }) {
           tx.amount > 0 ? "bg-green-ink/10" : "bg-ink/[0.06]"
         }`}>
           {tx.amount > 0 ? (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-ink"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-green-ink"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
           ) : (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-ink/40"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-ink/35"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
           )}
         </div>
         <div className="min-w-0">

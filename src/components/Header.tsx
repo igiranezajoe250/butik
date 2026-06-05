@@ -2,28 +2,88 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 type MenuView = null | "main" | "boutiques" | "about";
 
 const boutiques = [
-  { name: "Inzozi Atelier", color: "#c4a882" },
-  { name: "Gorilla Coffee House", color: "#6b5b4a" },
-  { name: "Urugo Gallery", color: "#3a3a3a" },
-  { name: "Umuco Fashion", color: "#8b6f5e" },
-  { name: "Keza Crafts", color: "#7a6854" },
-  { name: "Ishimwe Design", color: "#5c7a5c" },
-  { name: "Amahoro Beauty", color: "#9b7c6b" },
-  { name: "Ubumwe Textiles", color: "#6a7d5e" },
-  { name: "Ingabo Leather", color: "#8a6f4e" },
-  { name: "Nyamirambo Market", color: "#5a4a3a" },
-  { name: "Imena Jewelry", color: "#b08d6e" },
-  { name: "Rwema Home", color: "#7a8a6a" },
-  { name: "Urukundo Coffee", color: "#6b5545" },
-  { name: "Izuba Sun Care", color: "#c4a050" },
-  { name: "Imana Fragrance", color: "#8b7070" },
-  { name: "Agaseke Weavers", color: "#a08870" },
-  { name: "Intore Style", color: "#5a6a7a" },
-  { name: "Ubuzima Wellness", color: "#6a8a6a" },
+  {
+    name: "Nataal",
+    tagline: "Culture. Fashion. Music.",
+    logo: "/logos/nataal.png",
+    color: "#1a1a1a",
+    logoBg: "dark" as const,
+    url: "https://nataal.com",
+    category: "Media & Culture",
+    sells: "A media house covering fashion, music, and culture across Africa and its diaspora.",
+    why: "They tell the stories that shape how African creativity is understood — everywhere.",
+  },
+  {
+    name: "FLEXX",
+    tagline: "Push beyond limits.",
+    logo: "/logos/flexx.png",
+    color: "#f0ede6",
+    logoBg: "light" as const,
+    url: "https://flexxnow.com",
+    category: "Athletic Wear",
+    sells: "Sportswear for men and women — from training gear to everyday athletic wear.",
+    why: "Built on African heritage, made for real performance. They don't just look good at the gym.",
+  },
+  {
+    name: "Sonia Mugabo",
+    tagline: "Effortless. Enduring.",
+    logo: "/logos/soniamugabo.png",
+    color: "#f5f0ea",
+    logoBg: "light" as const,
+    url: "https://soniamugabo.co",
+    category: "Womenswear",
+    sells: "Dresses, jumpsuits, and sets — designed and sewn in Kigali.",
+    why: "Clothes you keep. Not because they're expensive, but because they never stop feeling right.",
+  },
+  {
+    name: "House of Tayo",
+    tagline: "Stories through cloth.",
+    logo: "/logos/houseoftayo.png",
+    color: "#f4f1e4",
+    logoBg: "light" as const,
+    url: "https://www.houseoftayo.com",
+    category: "Menswear",
+    sells: "Menswear and accessories — tailored in Kigali with African textiles and modern cuts.",
+    why: "Every piece has a story from the continent. You wear it, people ask where it's from.",
+  },
+  {
+    name: "Inzuki Designs",
+    tagline: "Handcrafted. Authentic.",
+    logo: "/logos/inzuki.png",
+    color: "#2c2c2c",
+    logoBg: "dark" as const,
+    url: "https://inzuki.com",
+    category: "Jewelry & Accessories",
+    sells: "Necklaces, earrings, bracelets, bags — all made by hand in Rwanda.",
+    why: "You can feel the hands that made these. Traditional craft shaped for how people live now.",
+  },
+  {
+    name: "Ichyulu",
+    tagline: "Curated African design.",
+    logo: "/logos/ichyulu.png",
+    color: "#d6cec4",
+    logoBg: "light" as const,
+    url: "https://ichyulu.com",
+    category: "Concept Store",
+    sells: "A concept store — hand-picking fashion and design from across the continent.",
+    why: "They find what's worth paying attention to. If it's on Ichyulu, someone good made it.",
+  },
+  {
+    name: "K’tsobe",
+    tagline: "Nature. Silver. Craft.",
+    logo: "/logos/ktsobe.png",
+    color: "#ede8e0",
+    logoBg: "light" as const,
+    url: "https://ktsobe.com",
+    category: "Fine Jewelry",
+    sells: "Rings, necklaces, bracelets — silver, brass, and materials found in Rwanda’s landscape.",
+    why: "Each piece looks like the hills and rivers it came from. Quiet jewelry for people who notice.",
+  },
 ];
 
 const articlePages = [
@@ -95,36 +155,40 @@ const articlePages = [
 
 export default function Header() {
   const [menuView, setMenuView] = useState<MenuView>(null);
+  const [selectedBoutique, setSelectedBoutique] = useState<typeof boutiques[number] | null>(null);
 
-  const closeMenu = () => setMenuView(null);
+  const closeMenu = () => { setMenuView(null); setSelectedBoutique(null); };
 
   return (
     <>
       {/* Brand card */}
-      <div className="fixed top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 z-30 min-w-0 sm:min-w-[220px] lg:min-w-[260px] bg-white text-ink flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 shadow-[0_16px_36px_rgba(0,0,0,0.16)] border border-black/5">
+      <div className="fixed top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 z-30 min-w-0 sm:min-w-[220px] lg:min-w-[260px] rounded-2xl text-ink flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5" style={{ background: "rgba(255,255,255,0.88)", backdropFilter: "blur(20px) saturate(1.2)", boxShadow: "0 8px 32px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)", border: "1px solid rgba(255,255,255,0.6)" }}>
         <Link href="/" onClick={closeMenu}>
-          <span className="text-[0.85rem] sm:text-[0.95rem] lg:text-[1.05rem] font-bold tracking-[0.15em] uppercase" style={{ fontFamily: "var(--font-display)" }}>Butik</span>
+          <span className="text-[0.85rem] sm:text-[0.95rem] lg:text-[1.02rem] font-semibold tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-display)" }}>Butik</span>
         </Link>
         <button
           onClick={() => setMenuView(menuView ? null : "main")}
           className="w-[22px] h-[14px] flex flex-col justify-between cursor-pointer ml-6 sm:ml-8"
           aria-label={menuView ? "Close menu" : "Open menu"}
         >
-          <span className={`block w-full h-[2px] bg-ink transition-transform duration-300 origin-center ${menuView ? "translate-y-[6px] rotate-45" : ""}`} />
-          <span className={`block w-full h-[2px] bg-ink transition-transform duration-300 origin-center ${menuView ? "-translate-y-[6px] -rotate-45" : ""}`} />
+          <span className={`block w-full h-[1.5px] bg-ink transition-transform duration-300 origin-center ${menuView ? "translate-y-[6px] rotate-45" : ""}`} />
+          <span className={`block w-full h-[1.5px] bg-ink transition-transform duration-300 origin-center ${menuView ? "-translate-y-[6px] -rotate-45" : ""}`} />
         </button>
       </div>
 
-      {/* Quick actions — hidden when menu is open */}
+      {/* Cart — single icon, hidden when menu is open */}
       {!menuView && (
-        <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-8 lg:left-8 z-30 flex items-center gap-2">
-          <Link href="/cart" className="h-[40px] sm:h-[46px] min-w-0 sm:min-w-[118px] border border-white/30 bg-white/90 text-ink inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[0.65rem] sm:text-[0.72rem] font-bold tracking-[0.12em] uppercase px-3 sm:px-4 shadow-[0_12px_28px_rgba(0,0,0,0.16)] backdrop-blur-[14px] hover:bg-white hover:-translate-y-px transition-all">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M5 6h15l-1.7 8.2a2 2 0 0 1-2 1.6H8.1a2 2 0 0 1-2-1.7L4.8 3H2" /><path d="M9 20h.01M17 20h.01" /></svg>
-            <span className="hidden sm:inline">Checkout</span>
-          </Link>
-          <Link href="/wallet" className="h-[40px] sm:h-[46px] min-w-0 sm:min-w-[118px] border border-white/30 bg-white/90 text-ink inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[0.65rem] sm:text-[0.72rem] font-bold tracking-[0.12em] uppercase px-3 sm:px-4 shadow-[0_12px_28px_rgba(0,0,0,0.16)] backdrop-blur-[14px] hover:bg-white hover:-translate-y-px transition-all">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 16.5v-9Z" /><path d="M17 12h.01" /><path d="M4 8h15" /></svg>
-            <span className="hidden sm:inline">Wallet</span>
+        <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-8 lg:left-8 z-30">
+          <Link
+            href="/cart"
+            className="w-[44px] h-[44px] sm:w-[48px] sm:h-[48px] rounded-full bg-white/92 text-ink inline-flex items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.1),0_2px_6px_rgba(0,0,0,0.04)] backdrop-blur-[16px] hover:bg-white hover:scale-105 hover:shadow-[0_12px_32px_rgba(0,0,0,0.14)] transition-all duration-200 border border-white/20"
+            aria-label="Cart"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
           </Link>
         </div>
       )}
@@ -135,28 +199,154 @@ export default function Header() {
           {menuView === "main" && (
             <div className="w-full h-full bg-paper text-ink flex flex-col">
               <div className="h-16 sm:h-20" />
-              <nav className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-20 gap-5 sm:gap-6 max-w-[800px]">
-                <button onClick={() => setMenuView("boutiques")} className="text-left text-2xl sm:text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up" style={{ fontFamily: "var(--font-display)" }}>Boutiques</button>
-                <button onClick={() => setMenuView("about")} className="text-left text-2xl sm:text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-100" style={{ fontFamily: "var(--font-display)" }}>About</button>
-                <Link href="/wallet" onClick={closeMenu} className="text-2xl sm:text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-200" style={{ fontFamily: "var(--font-display)" }}>Wallet</Link>
+              <nav className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-20 gap-4 sm:gap-5 max-w-[800px]">
+                <button onClick={() => setMenuView("boutiques")} className="text-left text-2xl sm:text-3xl lg:text-5xl font-normal text-ink hover:text-green-ink transition-colors duration-300 animate-fade-up" style={{ fontFamily: "var(--font-display)" }}>Boutiques</button>
+                <button onClick={() => setMenuView("about")} className="text-left text-2xl sm:text-3xl lg:text-5xl font-normal text-ink hover:text-green-ink transition-colors duration-300 animate-fade-up delay-100" style={{ fontFamily: "var(--font-display)" }}>About</button>
+                <Link href="/cart" onClick={closeMenu} className="text-2xl sm:text-3xl lg:text-5xl font-normal text-ink hover:text-green-ink transition-colors duration-300 animate-fade-up delay-200" style={{ fontFamily: "var(--font-display)" }}>Cart & Wallet</Link>
               </nav>
             </div>
           )}
 
-          {menuView === "boutiques" && (
-            <div className="w-full h-full bg-paper text-ink overflow-y-auto">
+          {menuView === "boutiques" && !selectedBoutique && (
+            <div className="w-full h-full bg-[#faf9f6] text-ink flex flex-col">
               <div className="h-16 sm:h-20" />
-              <div className="px-5 sm:px-8 lg:px-16 py-6 sm:py-10">
-                <button onClick={() => setMenuView("main")} className="text-[0.68rem] sm:text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink/50 hover:text-ink mb-6 sm:mb-10 transition-colors">Back</button>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-5 sm:gap-8 lg:gap-10">
-                  {boutiques.map((b, i) => (
-                    <button key={b.name} className="flex flex-col items-center gap-2 sm:gap-3 group cursor-pointer animate-fade-up" style={{ animationDelay: `${i * 40}ms` }} onClick={closeMenu}>
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: b.color }}>
-                        <span className="text-white text-[0.65rem] sm:text-sm lg:text-base font-bold tracking-wide">{b.name.split(" ").map((w) => w[0]).join("")}</span>
+              <div className="flex-1 flex flex-col items-center justify-center px-5 sm:px-8 lg:px-16 py-6 sm:py-8">
+                <button onClick={() => setMenuView("main")} className="self-start text-[0.6rem] sm:text-[0.64rem] font-semibold tracking-[0.16em] uppercase text-ink/30 hover:text-ink/60 rounded-full border border-ink/8 hover:border-ink/20 px-4 py-2 mb-6 sm:mb-8 transition-all duration-200 inline-flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                  Back
+                </button>
+
+                <div className="flex-1 flex flex-col items-center justify-center w-full max-w-[1100px]">
+                  <p className="text-[0.6rem] sm:text-[0.65rem] font-semibold tracking-[0.25em] uppercase text-ink/25 mb-10 sm:mb-14 animate-fade-up">Boutiques</p>
+
+                  <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-8 gap-x-4 sm:gap-x-6 lg:gap-x-8 gap-y-8 sm:gap-y-10 place-items-center">
+                    {boutiques.map((b, i) => (
+                      <button
+                        key={b.name}
+                        className="flex flex-col items-center gap-3 sm:gap-4 group cursor-pointer animate-fade-up"
+                        style={{ animationDelay: `${i * 70}ms` }}
+                        onClick={() => setSelectedBoutique(b)}
+                      >
+                        <div
+                          className="w-[80px] h-[80px] sm:w-[104px] sm:h-[104px] lg:w-[120px] lg:h-[120px] rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110"
+                          style={{
+                            backgroundColor: b.color,
+                            boxShadow: "0 4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.08)",
+                          }}
+                        >
+                          <div className="relative w-[56%] aspect-square flex items-center justify-center">
+                            <Image
+                              src={b.logo}
+                              alt={b.name}
+                              fill
+                              className="object-contain"
+                              sizes="120px"
+                            />
+                          </div>
+                        </div>
+                        <div className="text-center max-w-[100px] sm:max-w-[110px]">
+                          <h3 className="text-[0.62rem] sm:text-[0.7rem] font-semibold tracking-[0.04em] text-ink/80 group-hover:text-ink leading-tight transition-colors duration-300">{b.name}</h3>
+                        </div>
+                      </button>
+                    ))}
+
+                    {/* Add yours */}
+                    <button
+                      className="flex flex-col items-center gap-3 sm:gap-4 group cursor-pointer animate-fade-up"
+                      style={{ animationDelay: `${boutiques.length * 70}ms` }}
+                    >
+                      <div
+                        className="w-[80px] h-[80px] sm:w-[104px] sm:h-[104px] lg:w-[120px] lg:h-[120px] rounded-full flex items-center justify-center border border-dashed border-ink/12 group-hover:border-ink/30 transition-all duration-500 group-hover:scale-110 bg-white/50"
+                      >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-ink/18 group-hover:text-ink/45 transition-colors duration-300">
+                          <path d="M12 5v14M5 12h14" />
+                        </svg>
                       </div>
-                      <span className="text-[0.6rem] sm:text-[0.7rem] font-semibold tracking-wide text-ink/60 group-hover:text-ink text-center transition-colors leading-tight max-w-[80px] sm:max-w-[90px]">{b.name}</span>
+                      <div className="text-center max-w-[100px] sm:max-w-[110px]">
+                        <h3 className="text-[0.62rem] sm:text-[0.7rem] font-semibold tracking-[0.04em] text-ink/35 group-hover:text-ink/60 leading-tight transition-colors duration-300">Add yours</h3>
+                      </div>
                     </button>
-                  ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Boutique detail card */}
+          {menuView === "boutiques" && selectedBoutique && (
+            <div className="w-full h-full bg-[#faf9f6] text-ink flex flex-col animate-fade-in">
+              <div className="h-16 sm:h-20" />
+              <div className="flex-1 flex items-center justify-center px-5 sm:px-8 lg:px-16 py-6">
+                <div className="w-full max-w-[480px] animate-fade-up rounded-3xl p-8 sm:p-10" style={{ background: "rgba(255,255,255,0.45)", backdropFilter: "blur(24px)", border: "1px solid rgba(255,255,255,0.6)", boxShadow: "0 8px 40px rgba(0,0,0,0.04)" }}>
+
+                  {/* Logo circle */}
+                  <div className="flex justify-center mb-8 sm:mb-10">
+                    <div
+                      className="w-[100px] h-[100px] sm:w-[128px] sm:h-[128px] rounded-full flex items-center justify-center"
+                      style={{
+                        backgroundColor: selectedBoutique.color,
+                        boxShadow: "0 8px 40px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.08)",
+                      }}
+                    >
+                      <div className="relative w-[56%] aspect-square flex items-center justify-center">
+                        <Image
+                          src={selectedBoutique.logo}
+                          alt={selectedBoutique.name}
+                          fill
+                          className="object-contain"
+                          sizes="128px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Category tag */}
+                  <div className="flex justify-center mb-4">
+                    <span className="text-[0.56rem] sm:text-[0.6rem] font-semibold tracking-[0.22em] uppercase text-ink/28">{selectedBoutique.category}</span>
+                  </div>
+
+                  {/* Name */}
+                  <h2 className="text-center text-xl sm:text-2xl lg:text-[1.85rem] font-normal text-ink mb-2.5" style={{ fontFamily: "var(--font-display)" }}>
+                    {selectedBoutique.name}
+                  </h2>
+
+                  {/* Tagline */}
+                  <p className="text-center text-[0.84rem] sm:text-[0.92rem] italic text-green-ink tracking-[0.02em] mb-8 sm:mb-10">
+                    {selectedBoutique.tagline}
+                  </p>
+
+                  {/* Divider */}
+                  <div className="w-8 h-[0.5px] bg-ink/12 mx-auto mb-6 sm:mb-8" />
+
+                  {/* Description */}
+                  <p className="text-center text-[0.78rem] sm:text-[0.84rem] leading-[1.85] text-ink/42 max-w-[380px] mx-auto mb-4 sm:mb-5">
+                    {selectedBoutique.sells}
+                  </p>
+
+                  {/* Why */}
+                  <p className="text-center text-[0.74rem] sm:text-[0.8rem] leading-[1.75] text-ink/62 font-medium max-w-[340px] mx-auto mb-8 sm:mb-10">
+                    {selectedBoutique.why}
+                  </p>
+
+                  {/* Actions */}
+                  <div className="flex flex-col items-center gap-3">
+                    <a
+                      href={selectedBoutique.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2.5 text-[0.66rem] sm:text-[0.7rem] font-semibold tracking-[0.16em] uppercase text-white bg-ink rounded-full px-7 sm:px-8 py-3.5 sm:py-4 hover:bg-ink/88 transition-all duration-200 hover:-translate-y-px shadow-[0_4px_16px_rgba(17,17,16,0.12)]"
+                    >
+                      Visit {selectedBoutique.name}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10" /></svg>
+                    </a>
+                    <button
+                      onClick={() => setSelectedBoutique(null)}
+                      className="text-[0.6rem] sm:text-[0.64rem] font-semibold tracking-[0.16em] uppercase text-ink/25 hover:text-ink/55 transition-colors duration-200 mt-1"
+                    >
+                      Back to all
+                    </button>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -178,8 +368,11 @@ function AboutArticle({ onBack }: { onBack: () => void }) {
   const touchStartY = useRef(0);
 
   const goToPage = useCallback((index: number) => {
-    if (index < 0 || index >= articlePages.length) return;
-    setActivePage(index);
+    // Loop: wrap around
+    let next = index;
+    if (next < 0) next = articlePages.length - 1;
+    if (next >= articlePages.length) next = 0;
+    setActivePage(next);
   }, []);
 
   // Wheel
@@ -238,7 +431,7 @@ function AboutArticle({ onBack }: { onBack: () => void }) {
     >
       <button
         onClick={onBack}
-        className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-30 text-[0.62rem] sm:text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/40 hover:text-ink border border-ink/15 hover:border-ink/40 bg-white/60 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 transition-colors"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-30 text-[0.6rem] sm:text-[0.66rem] font-semibold tracking-[0.16em] uppercase text-ink/35 hover:text-ink rounded-full bg-white/50 backdrop-blur-md px-4 sm:px-5 py-2 sm:py-2.5 transition-all duration-200" style={{ border: "1px solid rgba(17,17,16,0.06)" }}
       >
         Close
       </button>
@@ -250,12 +443,12 @@ function AboutArticle({ onBack }: { onBack: () => void }) {
           )}
 
           <div className="flex items-start gap-4 sm:gap-8 lg:gap-16">
-            <span className="text-2xl sm:text-4xl lg:text-6xl text-ink/15 font-medium flex-shrink-0 leading-none" style={{ fontFamily: "var(--font-display)" }}>
+            <span className="text-2xl sm:text-4xl lg:text-6xl text-ink/10 font-normal flex-shrink-0 leading-none tabular-nums" style={{ fontFamily: "var(--font-display)" }}>
               {page.num}
             </span>
             <div className="flex-1 min-w-0">
               <h2
-                className="text-xl sm:text-3xl lg:text-[clamp(2.5rem,5vw,4.5rem)] font-medium leading-[1.05] sm:leading-[1] max-w-[14ch] mb-4 sm:mb-6"
+                className="text-xl sm:text-3xl lg:text-[clamp(2.5rem,5vw,4.5rem)] font-normal leading-[1.08] sm:leading-[1.02] max-w-[14ch] mb-4 sm:mb-6"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 {page.title}
@@ -264,7 +457,7 @@ function AboutArticle({ onBack }: { onBack: () => void }) {
                 <p className="text-base sm:text-lg italic text-green-ink tracking-wide">{page.subtitle}</p>
               )}
               {page.body && (
-                <p className="text-[0.82rem] sm:text-sm lg:text-base leading-[1.7] sm:leading-[1.85] text-[#263126] max-w-[60ch] mt-3 sm:mt-4">{page.body}</p>
+                <p className="text-[0.82rem] sm:text-[0.88rem] lg:text-[0.94rem] leading-[1.75] sm:leading-[1.85] text-ink/55 max-w-[56ch] mt-3 sm:mt-4">{page.body}</p>
               )}
             </div>
           </div>
@@ -286,7 +479,7 @@ function AboutArticle({ onBack }: { onBack: () => void }) {
       </div>
 
       <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-10">
-        <span className="text-[0.55rem] sm:text-[0.6rem] font-bold tracking-[0.2em] uppercase text-ink/30">
+        <span className="text-[0.55rem] sm:text-[0.58rem] font-medium tracking-[0.2em] uppercase text-ink/25 tabular-nums">
           {String(activePage + 1).padStart(2, "0")} / {String(articlePages.length).padStart(2, "0")}
         </span>
       </div>
