@@ -1,7 +1,8 @@
 "use client";
 
 import { use } from "react";
-import PageShell from "@/components/PageShell";
+import Link from "next/link";
+import Header from "@/components/Header";
 
 const categoryData: Record<string, { title: string; subtitle: string; items: { id: number; name: string; boutique: string; price: string; image: string }[] }> = {
   fashion: {
@@ -96,53 +97,77 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
 
   if (!data) {
     return (
-      <PageShell title="Not Found" subtitle="This section doesn't exist yet">
-        <div className="flex items-center justify-center h-[60vh]">
+      <div className="min-h-dvh bg-paper text-ink">
+        <Header />
+        <div className="flex items-center justify-center h-[80vh]">
           <p className="text-ink/40 text-sm">This section is coming soon.</p>
         </div>
-      </PageShell>
+      </div>
     );
   }
 
   return (
-    <PageShell title={data.title} subtitle={data.subtitle}>
-      <div className="px-5 sm:px-8 lg:px-16 py-8 sm:py-12 max-w-[1440px] mx-auto">
-        <div className="mb-8 sm:mb-12">
-          <p className="text-[0.6rem] sm:text-[0.65rem] font-semibold tracking-[0.25em] uppercase text-ink/25 mb-2">{data.subtitle}</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-ink" style={{ fontFamily: "var(--font-display)" }}>{data.title}</h2>
-        </div>
+    <div className="min-h-dvh bg-paper text-ink">
+      <Header />
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {data.items.map((item, i) => (
-            <article
-              key={item.id}
-              className="group cursor-pointer animate-fade-up rounded-2xl overflow-hidden"
-              style={{
-                animationDelay: `${i * 80}ms`,
-                background: "rgba(255,255,255,0.45)",
-                backdropFilter: "blur(16px)",
-                border: "1px solid rgba(17,17,16,0.04)",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
-              }}
-            >
-              <div className="aspect-[3/4] relative overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-3 sm:p-5">
-                <h3 className="text-[0.72rem] sm:text-[0.82rem] font-medium text-ink group-hover:text-ink/50 transition-colors duration-200">{item.name}</h3>
-                <p className="text-[0.56rem] sm:text-[0.64rem] text-ink/30 tracking-[0.02em] mt-1">{item.boutique}</p>
-                <p className="text-[0.72rem] sm:text-[0.82rem] text-ink/70 mt-2 font-medium tabular-nums">{item.price}</p>
-              </div>
-            </article>
-          ))}
+      <main className="pt-20 sm:pt-24 pb-32">
+        <div className="px-5 sm:px-8 lg:px-16 max-w-[1440px] mx-auto">
+          <div className="mb-8 sm:mb-12 animate-fade-up">
+            <p className="text-[0.6rem] sm:text-[0.65rem] font-semibold tracking-[0.25em] uppercase text-ink/25 mb-2">{data.subtitle}</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-ink" style={{ fontFamily: "var(--font-display)" }}>{data.title}</h2>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            {data.items.map((item, i) => (
+              <article
+                key={item.id}
+                className="group cursor-pointer animate-fade-up rounded-2xl overflow-hidden"
+                style={{
+                  animationDelay: `${i * 80}ms`,
+                  background: "rgba(255,255,255,0.45)",
+                  backdropFilter: "blur(16px)",
+                  border: "1px solid rgba(17,17,16,0.04)",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.03)",
+                }}
+              >
+                <div className="aspect-[3/4] relative overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-3 sm:p-5">
+                  <h3 className="text-[0.72rem] sm:text-[0.82rem] font-medium text-ink group-hover:text-ink/50 transition-colors duration-200">{item.name}</h3>
+                  <p className="text-[0.56rem] sm:text-[0.64rem] text-ink/30 tracking-[0.02em] mt-1">{item.boutique}</p>
+                  <p className="text-[0.72rem] sm:text-[0.82rem] text-ink/70 mt-2 font-medium tabular-nums">{item.price}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
+      </main>
+
+      {/* Centered back button at bottom */}
+      <div className="fixed bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 animate-fade-up" style={{ animationDelay: "400ms" }}>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-[0.62rem] sm:text-[0.66rem] font-semibold tracking-[0.16em] uppercase transition-all duration-300 hover:-translate-y-px group"
+          style={{
+            background: "rgba(255,255,255,0.85)",
+            backdropFilter: "blur(20px) saturate(1.2)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.04)",
+            border: "1px solid rgba(255,255,255,0.6)",
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-ink/50 group-hover:text-ink transition-colors duration-200">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span className="text-ink/60 group-hover:text-ink transition-colors duration-200">Back to Butik</span>
+        </Link>
       </div>
-    </PageShell>
+    </div>
   );
 }

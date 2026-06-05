@@ -5,25 +5,33 @@ import Image from "next/image";
 import Link from "next/link";
 
 const categories = [
-  { id: "home", title: "COMMERCE", subtitle: "Reimagined", image: "/hero.png", imagePosition: "left" as const, panelBg: "#F4F1E4", panelAccent: "#E3DDC8", searchScope: "Search everything" },
-  { id: "fashion", title: "FASHION", subtitle: "Wear the culture", image: "/fashion.png", imagePosition: "right" as const, panelBg: "#F0EBE3", panelAccent: "#DDD3C4", searchScope: "Search fashion" },
-  { id: "beauty", title: "BEAUTY", subtitle: "Pure radiance", image: "/cosmetics.png", imagePosition: "left" as const, panelBg: "#FAF5F0", panelAccent: "#EDE3D6", searchScope: "Search beauty" },
-  { id: "skincare", title: "SKIN CARE", subtitle: "Glow naturally", image: "/skincare.png", imagePosition: "right" as const, panelBg: "#EEF2E6", panelAccent: "#D4DFC2", searchScope: "Search skin care" },
-  { id: "fragrance", title: "FRAGRANCE", subtitle: "Essence of nature", image: "/boutiques.png", imagePosition: "left" as const, panelBg: "#EDE8E0", panelAccent: "#DDD6CA", searchScope: "Search fragrance" },
-  { id: "jewelry", title: "JEWELRY &\nACCESSORIES", subtitle: "Adorn yourself", image: "/jewels.png", imagePosition: "right" as const, panelBg: "#F5F0EA", panelAccent: "#E8DDD0", searchScope: "Search jewelry" },
-  { id: "personalcare", title: "PERSONAL CARE", subtitle: "Nourish within", image: "/items.png", imagePosition: "left" as const, panelBg: "#E6EDE8", panelAccent: "#D0DDD6", searchScope: "Search personal care" },
-  { id: "lifestyle", title: "LIFESTYLE", subtitle: "Live beautifully", image: "/hero.png", imagePosition: "right" as const, panelBg: "#F2EDE4", panelAccent: "#E4DCD0", searchScope: "Search lifestyle" },
+  { id: "home", title: "COMMERCE", subtitle: "Reimagined", image: "/hero.png", searchScope: "Search everything" },
+  { id: "fashion", title: "FASHION", subtitle: "Wear the culture", image: "/fashion.png", searchScope: "Search fashion" },
+  { id: "beauty", title: "BEAUTY", subtitle: "Pure radiance", image: "/cosmetics.png", searchScope: "Search beauty" },
+  { id: "skincare", title: "SKIN CARE", subtitle: "Glow naturally", image: "/skincare.png", searchScope: "Search skin care" },
+  { id: "fragrance", title: "FRAGRANCE", subtitle: "Essence of nature", image: "/boutiques.png", searchScope: "Search fragrance" },
+  { id: "jewelry", title: "JEWELRY &\nACCESSORIES", subtitle: "Adorn yourself", image: "/jewels.png", searchScope: "Search jewelry" },
+  { id: "personalcare", title: "PERSONAL CARE", subtitle: "Nourish within", image: "/items.png", searchScope: "Search personal care" },
+  { id: "lifestyle", title: "LIFESTYLE", subtitle: "Live beautifully", image: "/hero.png", searchScope: "Search lifestyle" },
+];
+
+const audienceFilters = [
+  { id: "all", label: "All" },
+  { id: "women", label: "Women" },
+  { id: "men", label: "Men" },
+  { id: "children", label: "Children" },
+  { id: "unisex", label: "Unisex" },
 ];
 
 const results = [
-  { id: 1, name: "Handwoven Agaseke Basket", boutique: "Inzozi Atelier", price: "RWF 45,000", color: "#c8b9a6", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=520&fit=crop&q=80" },
-  { id: 2, name: "Single-Origin Bourbon Coffee", boutique: "Gorilla Coffee House", price: "RWF 18,000", color: "#7a6850", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=520&fit=crop&q=80" },
-  { id: 3, name: "Imigongo Art Panel", boutique: "Urugo Gallery", price: "RWF 120,000", color: "#2a2a2a", image: "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=400&h=520&fit=crop&q=80" },
-  { id: 4, name: "Kitenge Wrap Dress", boutique: "Umuco Fashion", price: "RWF 65,000", color: "#8a7060", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=520&fit=crop&q=80" },
-  { id: 5, name: "Banana Leaf Tote", boutique: "Keza Crafts", price: "RWF 32,000", color: "#706050", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=520&fit=crop&q=80" },
-  { id: 6, name: "Ceramic Serving Set", boutique: "Ishimwe Design", price: "RWF 28,000", color: "#5a7258", image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&h=520&fit=crop&q=80" },
-  { id: 7, name: "Rwandan Honey Set", boutique: "Inzozi Atelier", price: "RWF 22,000", color: "#b89850", image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=520&fit=crop&q=80" },
-  { id: 8, name: "Woven Wall Hanging", boutique: "Keza Crafts", price: "RWF 55,000", color: "#9a8268", image: "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=400&h=520&fit=crop&q=80" },
+  { id: 1, name: "Handwoven Agaseke Basket", boutique: "Inzozi Atelier", price: "RWF 45,000", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=520&fit=crop&q=80" },
+  { id: 2, name: "Single-Origin Bourbon Coffee", boutique: "Gorilla Coffee House", price: "RWF 18,000", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=520&fit=crop&q=80" },
+  { id: 3, name: "Imigongo Art Panel", boutique: "Urugo Gallery", price: "RWF 120,000", image: "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=400&h=520&fit=crop&q=80" },
+  { id: 4, name: "Kitenge Wrap Dress", boutique: "Umuco Fashion", price: "RWF 65,000", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=520&fit=crop&q=80" },
+  { id: 5, name: "Banana Leaf Tote", boutique: "Keza Crafts", price: "RWF 32,000", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=520&fit=crop&q=80" },
+  { id: 6, name: "Ceramic Serving Set", boutique: "Ishimwe Design", price: "RWF 28,000", image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&h=520&fit=crop&q=80" },
+  { id: 7, name: "Rwandan Honey Set", boutique: "Inzozi Atelier", price: "RWF 22,000", image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&h=520&fit=crop&q=80" },
+  { id: 8, name: "Woven Wall Hanging", boutique: "Keza Crafts", price: "RWF 55,000", image: "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=400&h=520&fit=crop&q=80" },
 ];
 
 type SearchMode = "text" | "voice" | "image" | "video" | "live";
@@ -46,6 +54,7 @@ export default function HeroSection() {
   const [searchMode, setSearchMode] = useState<SearchMode>("text");
   const [showModes, setShowModes] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [activeAudience, setActiveAudience] = useState("all");
   const containerRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false);
   const touchStartY = useRef(0);
@@ -140,12 +149,7 @@ export default function HeroSection() {
               <article key={`${item.id}-${i}`} className="flex-shrink-0 w-[200px] sm:w-[260px] lg:w-[300px] group cursor-pointer animate-slide-in rounded-2xl overflow-hidden" style={{ animationDelay: `${i * 70}ms`, background: "rgba(255,255,255,0.45)", backdropFilter: "blur(16px)", border: "1px solid rgba(17,17,16,0.04)", boxShadow: "0 4px 20px rgba(0,0,0,0.03)" }}>
                 <div className="aspect-[3/4] relative overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
+                  <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 </div>
                 <div className="p-4 sm:p-5">
                   <h3 className="text-[0.76rem] sm:text-[0.82rem] font-medium text-ink group-hover:text-ink/50 transition-colors duration-200">{item.name}</h3>
@@ -156,7 +160,6 @@ export default function HeroSection() {
             ))}
           </div>
         </div>
-        {/* Centered search bar — shows current query as title */}
         <div className="px-5 sm:px-8 lg:px-16 pb-6 sm:pb-8 flex justify-center">
           <SearchBarInline query={query} setQuery={setQuery} onSubmit={handleSubmit} searchMode={searchMode} showModes={showModes} setShowModes={setShowModes} selectMode={selectMode} isListening={isListening} allModes={allModes} scopeLabel={searchQuery} placeholder={query || "Search for something else"} />
         </div>
@@ -164,47 +167,81 @@ export default function HeroSection() {
     );
   }
 
-  // ─── Category view ───
-  const imageEl = (
-    <div className="relative h-[45vh] sm:h-[50vh] lg:h-full overflow-hidden" key={`img-${cat.id}`}>
-      <Image src={cat.image} alt={cat.title.replace("\n", " ")} fill priority={activeIndex === 0} className="object-cover brightness-[0.92] contrast-[1.05] transition-opacity duration-700" sizes="(max-width: 1024px) 100vw, 50vw" />
-    </div>
-  );
-
-  const contentEl = (
-    <div className="relative h-[55vh] sm:h-[50vh] lg:h-full flex flex-col items-center justify-center px-6 sm:px-8 lg:px-16 py-8 transition-colors duration-700" key={`panel-${cat.id}`} style={{ background: `linear-gradient(135deg, ${cat.panelBg} 0%, ${cat.panelAccent} 100%)` }}>
-      <div className="w-full max-w-[560px] text-center flex flex-col items-center">
-        <h1 className="text-[clamp(1.8rem,8vw,4.5rem)] lg:text-[clamp(2.8rem,5vw,4.5rem)] font-semibold tracking-[0.06em] uppercase text-ink leading-[0.95] mb-3 sm:mb-4 whitespace-pre-line" style={{ fontFamily: "var(--font-display)" }}>{cat.title}</h1>
-        <p className="text-[0.88rem] sm:text-[1.05rem] italic text-green-ink tracking-[0.03em] mb-6 sm:mb-8">{cat.subtitle}</p>
-
-        {/* Explore button */}
-        {activeIndex !== 0 && (
-          <Link
-            href={`/${cat.id}`}
-            className="inline-flex items-center gap-2.5 text-[0.62rem] sm:text-[0.66rem] font-semibold tracking-[0.16em] uppercase text-ink/50 hover:text-ink border border-ink/10 hover:border-ink/25 rounded-full px-5 sm:px-6 py-2.5 sm:py-3 transition-all duration-300 hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)] group"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-              <path d="M11 8v6M8 11h6" />
-            </svg>
-            Explore {cat.title.replace("\n", " ").toLowerCase()}
-          </Link>
-        )}
-      </div>
-    </div>
-  );
-
+  // ─── Main boutique view ───
   return (
     <section ref={containerRef} className="w-full h-dvh relative overflow-hidden bg-[#080808] touch-none">
       {fileInput}
 
-      {/* Background: image + panel with title */}
-      <div className={`w-full h-full grid grid-cols-1 lg:grid-cols-2 transition-opacity duration-600 ${isTransitioning ? "opacity-0" : "opacity-100"}`}>
-        {cat.imagePosition === "left" ? <>{imageEl}{contentEl}</> : <><div className="order-2 lg:order-1">{contentEl}</div><div className="order-1 lg:order-2">{imageEl}</div></>}
+      {/* ─── Full-bleed image background ─── */}
+      <div className={`absolute inset-0 transition-opacity duration-700 ${isTransitioning ? "opacity-0" : "opacity-100"}`}>
+        <Image
+          src={cat.image}
+          alt={cat.title.replace("\n", " ")}
+          fill
+          priority={activeIndex === 0}
+          className="object-cover brightness-[0.88] contrast-[1.05]"
+          sizes="100vw"
+        />
+        {/* Gradient overlays for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
       </div>
 
-      {/* ─── Centered search bar — fixed in middle of viewport ─── */}
+      {/* ─── Desktop: content panel on left half ─── */}
+      <div className="hidden lg:flex absolute inset-y-0 left-0 w-1/2 z-[5] items-center justify-center">
+        <div className={`text-center flex flex-col items-center transition-all duration-700 ${isTransitioning ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
+          <h1
+            className="text-[clamp(2.8rem,5vw,4.5rem)] font-semibold tracking-[0.06em] uppercase text-white leading-[0.95] mb-4 whitespace-pre-line drop-shadow-[0_2px_20px_rgba(0,0,0,0.3)]"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            {cat.title}
+          </h1>
+          <p className="text-[1.05rem] italic text-white/70 tracking-[0.03em] mb-8">{cat.subtitle}</p>
+
+          {activeIndex !== 0 && (
+            <Link
+              href={`/${cat.id}`}
+              className="inline-flex items-center gap-2.5 text-[0.66rem] font-semibold tracking-[0.16em] uppercase text-white/70 hover:text-white border border-white/20 hover:border-white/40 rounded-full px-6 py-3 transition-all duration-300 hover:-translate-y-px hover:shadow-[0_4px_24px_rgba(255,255,255,0.1)] group backdrop-blur-sm"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+                <path d="M11 8v6M8 11h6" />
+              </svg>
+              Explore {cat.title.replace("\n", " ").toLowerCase()}
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* ─── Mobile: title + explore overlaid on image ─── */}
+      <div className="lg:hidden absolute inset-0 z-[5] flex flex-col items-center justify-center px-6">
+        <div className={`text-center flex flex-col items-center transition-all duration-700 ${isTransitioning ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
+          <h1
+            className="text-[clamp(2rem,10vw,3.5rem)] font-semibold tracking-[0.06em] uppercase text-white leading-[0.95] mb-3 whitespace-pre-line drop-shadow-[0_2px_16px_rgba(0,0,0,0.4)]"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            {cat.title}
+          </h1>
+          <p className="text-[0.88rem] italic text-white/65 tracking-[0.03em] mb-6">{cat.subtitle}</p>
+
+          {activeIndex !== 0 && (
+            <Link
+              href={`/${cat.id}`}
+              className="inline-flex items-center gap-2 text-[0.6rem] font-semibold tracking-[0.16em] uppercase text-white/70 hover:text-white border border-white/20 hover:border-white/40 rounded-full px-5 py-2.5 transition-all duration-300 backdrop-blur-sm"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+                <path d="M11 8v6M8 11h6" />
+              </svg>
+              Explore
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* ─── Search bar ─── */}
       <div className="absolute inset-0 z-10 pointer-events-none flex items-end justify-center pb-[10vh] sm:pb-[12vh]">
         <div className="pointer-events-auto w-full max-w-[520px] px-5 sm:px-0">
           <SearchBarInline
@@ -217,35 +254,68 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* ─── Nav dots with section names — always visible ─── */}
-      <div className="absolute right-3 sm:right-6 lg:right-10 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-1.5 sm:gap-2.5">
-        {categories.map((c, i) => {
-          const isActive = i === activeIndex;
-          const label = c.title.replace("\n", " ");
-          return (
-            <button
-              key={c.id}
-              onClick={() => goToCategory(i)}
-              className="flex items-center gap-1.5 sm:gap-2 justify-end group"
-            >
-              <span
-                className={`text-[0.42rem] sm:text-[0.55rem] font-semibold tracking-[0.14em] uppercase whitespace-nowrap transition-all duration-300 ${
-                  isActive ? "text-white/80" : "text-white/25 group-hover:text-white/50"
+      {/* ─── Left: audience filter (glassy card) ─── */}
+      <div className="hidden lg:flex absolute left-8 xl:left-10 top-1/2 -translate-y-1/2 z-10">
+        <div
+          className="rounded-2xl px-3 py-4 flex flex-col gap-1 animate-fade-in glass-card"
+        >
+          <span className="text-[0.48rem] font-bold tracking-[0.2em] uppercase text-white/30 px-2 mb-1.5">Shop for</span>
+          {audienceFilters.map((f) => {
+            const isActive = activeAudience === f.id;
+            return (
+              <button
+                key={f.id}
+                onClick={() => setActiveAudience(f.id)}
+                className={`text-left text-[0.58rem] font-semibold tracking-[0.12em] uppercase px-3 py-2 rounded-xl transition-all duration-300 ${
+                  isActive
+                    ? "text-white bg-white/12"
+                    : "text-white/35 hover:text-white/65 hover:bg-white/5"
                 }`}
               >
-                {label}
-              </span>
-              <div className={`w-1.5 rounded-full transition-all duration-500 flex-shrink-0 ${
-                isActive ? "h-5 sm:h-8 bg-white" : "h-1.5 bg-white/30 hover:bg-white/60"
-              }`} />
-            </button>
-          );
-        })}
+                {f.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ─── Right: section nav (glassy card) ─── */}
+      <div className="absolute right-3 sm:right-5 lg:right-8 xl:right-10 top-1/2 -translate-y-1/2 z-10">
+        <div
+          className="rounded-2xl px-2 sm:px-3 py-3 sm:py-4 flex flex-col gap-0.5 sm:gap-1 animate-fade-in glass-card"
+        >
+          {categories.map((c, i) => {
+            const isActive = i === activeIndex;
+            const label = c.title.replace("\n", " ");
+            return (
+              <button
+                key={c.id}
+                onClick={() => goToCategory(i)}
+                className={`flex items-center gap-1.5 sm:gap-2 justify-end px-2 sm:px-2.5 py-1.5 sm:py-2 rounded-xl transition-all duration-300 group ${
+                  isActive ? "bg-white/12" : "hover:bg-white/5"
+                }`}
+              >
+                <span
+                  className={`text-[0.42rem] sm:text-[0.54rem] font-semibold tracking-[0.12em] uppercase whitespace-nowrap transition-all duration-300 ${
+                    isActive ? "text-white" : "text-white/30 group-hover:text-white/60"
+                  }`}
+                >
+                  {label}
+                </span>
+                <div className={`w-[3px] rounded-full transition-all duration-500 flex-shrink-0 ${
+                  isActive ? "h-4 sm:h-6 bg-white" : "h-[3px] bg-white/25 group-hover:bg-white/50"
+                }`} />
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Counter */}
       <div className="absolute bottom-4 sm:bottom-8 right-3 sm:right-6 lg:right-10 z-10">
-        <span className="text-[0.55rem] sm:text-[0.6rem] font-medium tracking-[0.2em] uppercase text-white/30 tabular-nums">{String(activeIndex + 1).padStart(2, "0")} / {String(categories.length).padStart(2, "0")}</span>
+        <span className="text-[0.55rem] sm:text-[0.6rem] font-medium tracking-[0.2em] uppercase text-white/30 tabular-nums">
+          {String(activeIndex + 1).padStart(2, "0")} / {String(categories.length).padStart(2, "0")}
+        </span>
       </div>
     </section>
   );
@@ -270,7 +340,6 @@ function SearchBarInline({ query, setQuery, onSubmit, searchMode, showModes, set
           backdropFilter: "blur(28px) saturate(1.3)",
         }}
       >
-        {/* Scope header */}
         <div className="h-[38px] sm:h-[44px] px-3 sm:px-4 flex items-center justify-between border-b border-ink/[0.06]">
           <span className="text-ink/45 text-[0.7rem] sm:text-[0.76rem] font-medium tracking-[0.02em] truncate">{scopeLabel}</span>
           <div className="flex items-center gap-1.5">
@@ -280,7 +349,6 @@ function SearchBarInline({ query, setQuery, onSubmit, searchMode, showModes, set
           </div>
         </div>
 
-        {/* Mode picker — inline */}
         <div className="bg-ink/[0.03]">
           <div className="grid transition-all duration-300 ease-out" style={{ gridTemplateRows: showModes ? "1fr" : "0fr", opacity: showModes ? 1 : 0 }}>
             <div className="overflow-hidden">
@@ -297,7 +365,6 @@ function SearchBarInline({ query, setQuery, onSubmit, searchMode, showModes, set
             </div>
           </div>
 
-          {/* Input row */}
           <div className="grid transition-all duration-300 ease-out" style={{ gridTemplateRows: showModes ? "0fr" : "1fr", opacity: showModes ? 0 : 1 }}>
             <div className="overflow-hidden">
               <div className="min-h-[50px] sm:min-h-[58px] grid grid-cols-[auto_1fr_auto] items-center gap-1.5 sm:gap-2.5 px-2 sm:px-2.5 py-1.5 sm:py-2">
