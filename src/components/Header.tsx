@@ -101,13 +101,13 @@ export default function Header() {
   return (
     <>
       {/* Brand card */}
-      <div className="fixed top-6 left-6 lg:top-8 lg:left-8 z-30 min-w-[220px] lg:min-w-[260px] bg-white text-ink flex items-center justify-between px-5 py-3.5 shadow-[0_16px_36px_rgba(0,0,0,0.16)] border border-black/5">
+      <div className="fixed top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 z-30 min-w-0 sm:min-w-[220px] lg:min-w-[260px] bg-white text-ink flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 shadow-[0_16px_36px_rgba(0,0,0,0.16)] border border-black/5">
         <Link href="/" onClick={closeMenu}>
-          <span className="text-[0.95rem] lg:text-[1.05rem] font-bold tracking-[0.15em] uppercase" style={{ fontFamily: "var(--font-display)" }}>Butik</span>
+          <span className="text-[0.85rem] sm:text-[0.95rem] lg:text-[1.05rem] font-bold tracking-[0.15em] uppercase" style={{ fontFamily: "var(--font-display)" }}>Butik</span>
         </Link>
         <button
           onClick={() => setMenuView(menuView ? null : "main")}
-          className="w-[22px] h-[14px] flex flex-col justify-between cursor-pointer"
+          className="w-[22px] h-[14px] flex flex-col justify-between cursor-pointer ml-6 sm:ml-8"
           aria-label={menuView ? "Close menu" : "Open menu"}
         >
           <span className={`block w-full h-[2px] bg-ink transition-transform duration-300 origin-center ${menuView ? "translate-y-[6px] rotate-45" : ""}`} />
@@ -115,44 +115,46 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Quick actions */}
-      <div className="fixed bottom-6 left-6 lg:bottom-8 lg:left-8 z-30 flex items-center gap-2.5">
-        <Link href="/cart" className="h-[46px] min-w-[118px] border border-white/30 bg-white/90 text-ink inline-flex items-center justify-center gap-2 text-[0.72rem] font-bold tracking-[0.12em] uppercase shadow-[0_12px_28px_rgba(0,0,0,0.16)] backdrop-blur-[14px] hover:bg-white hover:-translate-y-px transition-all">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M5 6h15l-1.7 8.2a2 2 0 0 1-2 1.6H8.1a2 2 0 0 1-2-1.7L4.8 3H2" /><path d="M9 20h.01M17 20h.01" /></svg>
-          Checkout
-        </Link>
-        <Link href="/wallet" className="h-[46px] min-w-[118px] border border-white/30 bg-white/90 text-ink inline-flex items-center justify-center gap-2 text-[0.72rem] font-bold tracking-[0.12em] uppercase shadow-[0_12px_28px_rgba(0,0,0,0.16)] backdrop-blur-[14px] hover:bg-white hover:-translate-y-px transition-all">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 16.5v-9Z" /><path d="M17 12h.01" /><path d="M4 8h15" /></svg>
-          Wallet
-        </Link>
-      </div>
+      {/* Quick actions — hidden when menu is open */}
+      {!menuView && (
+        <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-8 lg:left-8 z-30 flex items-center gap-2">
+          <Link href="/cart" className="h-[40px] sm:h-[46px] min-w-0 sm:min-w-[118px] border border-white/30 bg-white/90 text-ink inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[0.65rem] sm:text-[0.72rem] font-bold tracking-[0.12em] uppercase px-3 sm:px-4 shadow-[0_12px_28px_rgba(0,0,0,0.16)] backdrop-blur-[14px] hover:bg-white hover:-translate-y-px transition-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M5 6h15l-1.7 8.2a2 2 0 0 1-2 1.6H8.1a2 2 0 0 1-2-1.7L4.8 3H2" /><path d="M9 20h.01M17 20h.01" /></svg>
+            <span className="hidden sm:inline">Checkout</span>
+          </Link>
+          <Link href="/wallet" className="h-[40px] sm:h-[46px] min-w-0 sm:min-w-[118px] border border-white/30 bg-white/90 text-ink inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[0.65rem] sm:text-[0.72rem] font-bold tracking-[0.12em] uppercase px-3 sm:px-4 shadow-[0_12px_28px_rgba(0,0,0,0.16)] backdrop-blur-[14px] hover:bg-white hover:-translate-y-px transition-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 16.5v-9Z" /><path d="M17 12h.01" /><path d="M4 8h15" /></svg>
+            <span className="hidden sm:inline">Wallet</span>
+          </Link>
+        </div>
+      )}
 
       {/* Menu overlay */}
       {menuView && (
         <div className="fixed inset-0 z-20 animate-fade-in">
           {menuView === "main" && (
             <div className="w-full h-full bg-paper text-ink flex flex-col">
-              <div className="h-20" />
-              <nav className="flex-1 flex flex-col justify-center px-10 lg:px-20 gap-6 max-w-[800px]">
-                <button onClick={() => setMenuView("boutiques")} className="text-left text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up" style={{ fontFamily: "var(--font-display)" }}>Boutiques</button>
-                <button onClick={() => setMenuView("about")} className="text-left text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-100" style={{ fontFamily: "var(--font-display)" }}>About</button>
-                <Link href="/wallet" onClick={closeMenu} className="text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-200" style={{ fontFamily: "var(--font-display)" }}>Wallet</Link>
+              <div className="h-16 sm:h-20" />
+              <nav className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-20 gap-5 sm:gap-6 max-w-[800px]">
+                <button onClick={() => setMenuView("boutiques")} className="text-left text-2xl sm:text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up" style={{ fontFamily: "var(--font-display)" }}>Boutiques</button>
+                <button onClick={() => setMenuView("about")} className="text-left text-2xl sm:text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-100" style={{ fontFamily: "var(--font-display)" }}>About</button>
+                <Link href="/wallet" onClick={closeMenu} className="text-2xl sm:text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-200" style={{ fontFamily: "var(--font-display)" }}>Wallet</Link>
               </nav>
             </div>
           )}
 
           {menuView === "boutiques" && (
             <div className="w-full h-full bg-paper text-ink overflow-y-auto">
-              <div className="h-20" />
-              <div className="px-8 lg:px-16 py-10">
-                <button onClick={() => setMenuView("main")} className="text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink/50 hover:text-ink mb-10 transition-colors">Back</button>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-8 lg:gap-10">
+              <div className="h-16 sm:h-20" />
+              <div className="px-5 sm:px-8 lg:px-16 py-6 sm:py-10">
+                <button onClick={() => setMenuView("main")} className="text-[0.68rem] sm:text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink/50 hover:text-ink mb-6 sm:mb-10 transition-colors">Back</button>
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-5 sm:gap-8 lg:gap-10">
                   {boutiques.map((b, i) => (
-                    <button key={b.name} className="flex flex-col items-center gap-3 group cursor-pointer animate-fade-up" style={{ animationDelay: `${i * 40}ms` }} onClick={closeMenu}>
-                      <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: b.color }}>
-                        <span className="text-white text-sm lg:text-base font-bold tracking-wide">{b.name.split(" ").map((w) => w[0]).join("")}</span>
+                    <button key={b.name} className="flex flex-col items-center gap-2 sm:gap-3 group cursor-pointer animate-fade-up" style={{ animationDelay: `${i * 40}ms` }} onClick={closeMenu}>
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: b.color }}>
+                        <span className="text-white text-[0.65rem] sm:text-sm lg:text-base font-bold tracking-wide">{b.name.split(" ").map((w) => w[0]).join("")}</span>
                       </div>
-                      <span className="text-[0.7rem] font-semibold tracking-wide text-ink/60 group-hover:text-ink text-center transition-colors leading-tight max-w-[90px]">{b.name}</span>
+                      <span className="text-[0.6rem] sm:text-[0.7rem] font-semibold tracking-wide text-ink/60 group-hover:text-ink text-center transition-colors leading-tight max-w-[80px] sm:max-w-[90px]">{b.name}</span>
                     </button>
                   ))}
                 </div>
@@ -173,43 +175,54 @@ function AboutArticle({ onBack }: { onBack: () => void }) {
   const [activePage, setActivePage] = useState(0);
   const isScrolling = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
 
   const goToPage = useCallback((index: number) => {
     if (index < 0 || index >= articlePages.length) return;
     setActivePage(index);
   }, []);
 
+  // Wheel
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     const handleWheel = (e: WheelEvent) => {
-      if (isScrolling.current) return;
-      if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-      if (Math.abs(e.deltaY) < 10) return;
-
+      if (isScrolling.current || Math.abs(e.deltaY) < 10) return;
       e.preventDefault();
       isScrolling.current = true;
-
-      const direction = e.deltaY > 0 ? 1 : -1;
-      goToPage(activePage + direction);
-
+      goToPage(activePage + (e.deltaY > 0 ? 1 : -1));
       setTimeout(() => { isScrolling.current = false; }, 800);
     };
-
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => container.removeEventListener("wheel", handleWheel);
   }, [activePage, goToPage]);
 
+  // Touch swipe
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const handleTouchStart = (e: TouchEvent) => { touchStartY.current = e.touches[0].clientY; };
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (isScrolling.current) return;
+      const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+      if (Math.abs(deltaY) < 50) return;
+      isScrolling.current = true;
+      goToPage(activePage + (deltaY > 0 ? 1 : -1));
+      setTimeout(() => { isScrolling.current = false; }, 800);
+    };
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [activePage, goToPage]);
+
+  // Keyboard
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        e.preventDefault();
-        goToPage(activePage + 1);
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        e.preventDefault();
-        goToPage(activePage - 1);
-      }
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); goToPage(activePage + 1); }
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); goToPage(activePage - 1); }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -220,63 +233,60 @@ function AboutArticle({ onBack }: { onBack: () => void }) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full text-ink overflow-hidden relative"
+      className="w-full h-full text-ink overflow-hidden relative touch-none"
       style={{ backgroundColor: page.bg, transition: "background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1)" }}
     >
-      {/* Back button */}
       <button
         onClick={onBack}
-        className="fixed top-6 right-6 lg:top-8 lg:right-8 z-30 text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/40 hover:text-ink border border-ink/15 hover:border-ink/40 bg-white/60 backdrop-blur-md px-4 py-2.5 transition-colors"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-30 text-[0.62rem] sm:text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/40 hover:text-ink border border-ink/15 hover:border-ink/40 bg-white/60 backdrop-blur-md px-3 sm:px-4 py-2 sm:py-2.5 transition-colors"
       >
         Close
       </button>
 
-      {/* Page content */}
-      <div className="w-full h-full flex items-center justify-center px-10 lg:px-20" key={activePage}>
+      <div className="w-full h-full flex items-center justify-center px-6 sm:px-10 lg:px-20" key={activePage}>
         <div className="max-w-[900px] w-full animate-fade-up">
           {page.kicker && (
-            <p className="text-[0.72rem] font-bold tracking-[0.16em] uppercase text-green-ink mb-6">{page.kicker}</p>
+            <p className="text-[0.68rem] sm:text-[0.72rem] font-bold tracking-[0.16em] uppercase text-green-ink mb-4 sm:mb-6">{page.kicker}</p>
           )}
 
-          <div className="flex items-start gap-8 lg:gap-16">
-            <span className="text-4xl lg:text-6xl text-ink/15 font-medium flex-shrink-0 leading-none" style={{ fontFamily: "var(--font-display)" }}>
+          <div className="flex items-start gap-4 sm:gap-8 lg:gap-16">
+            <span className="text-2xl sm:text-4xl lg:text-6xl text-ink/15 font-medium flex-shrink-0 leading-none" style={{ fontFamily: "var(--font-display)" }}>
               {page.num}
             </span>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <h2
-                className="text-3xl lg:text-[clamp(2.5rem,5vw,4.5rem)] font-medium leading-[1] max-w-[14ch] mb-6"
+                className="text-xl sm:text-3xl lg:text-[clamp(2.5rem,5vw,4.5rem)] font-medium leading-[1.05] sm:leading-[1] max-w-[14ch] mb-4 sm:mb-6"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 {page.title}
               </h2>
               {page.subtitle && (
-                <p className="text-lg italic text-green-ink tracking-wide">{page.subtitle}</p>
+                <p className="text-base sm:text-lg italic text-green-ink tracking-wide">{page.subtitle}</p>
               )}
               {page.body && (
-                <p className="text-sm lg:text-base leading-[1.85] text-[#263126] max-w-[60ch] mt-4">{page.body}</p>
+                <p className="text-[0.82rem] sm:text-sm lg:text-base leading-[1.7] sm:leading-[1.85] text-[#263126] max-w-[60ch] mt-3 sm:mt-4">{page.body}</p>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Progress indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2">
+      {/* Progress dots */}
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2">
         {articlePages.map((_, i) => (
           <button
             key={i}
             onClick={() => goToPage(i)}
             className={`rounded-full transition-all duration-500 ${
-              i === activePage ? "w-8 h-1.5 bg-ink/60" : "w-1.5 h-1.5 bg-ink/15 hover:bg-ink/30"
+              i === activePage ? "w-6 sm:w-8 h-1.5 bg-ink/60" : "w-1.5 h-1.5 bg-ink/15 hover:bg-ink/30"
             }`}
             aria-label={`Page ${i + 1}`}
           />
         ))}
       </div>
 
-      {/* Page counter */}
-      <div className="absolute bottom-8 right-10">
-        <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-ink/30">
+      <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-10">
+        <span className="text-[0.55rem] sm:text-[0.6rem] font-bold tracking-[0.2em] uppercase text-ink/30">
           {String(activePage + 1).padStart(2, "0")} / {String(articlePages.length).padStart(2, "0")}
         </span>
       </div>

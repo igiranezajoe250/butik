@@ -96,6 +96,7 @@ export default function HeroSection() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false);
+  const touchStartY = useRef(0);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -117,9 +118,9 @@ export default function HeroSection() {
     setTimeout(() => setIsTransitioning(false), 700);
   }, [isTransitioning]);
 
+  // Wheel navigation
   useEffect(() => {
     if (searchQuery) return;
-
     const container = containerRef.current;
     if (!container) return;
 
@@ -127,13 +128,9 @@ export default function HeroSection() {
       if (Math.abs(e.deltaY) < 10 || isScrolling.current) return;
       e.preventDefault();
       isScrolling.current = true;
-
       const direction = e.deltaY > 0 ? 1 : -1;
       const next = activeIndex + direction;
-      if (next >= 0 && next < categories.length) {
-        goToCategory(next);
-      }
-
+      if (next >= 0 && next < categories.length) goToCategory(next);
       setTimeout(() => { isScrolling.current = false; }, 900);
     };
 
@@ -141,49 +138,78 @@ export default function HeroSection() {
     return () => container.removeEventListener("wheel", handleWheel);
   }, [searchQuery, activeIndex, goToCategory]);
 
+  // Touch swipe navigation
+  useEffect(() => {
+    if (searchQuery) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (isScrolling.current) return;
+      const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+      if (Math.abs(deltaY) < 50) return;
+      isScrolling.current = true;
+      const direction = deltaY > 0 ? 1 : -1;
+      const next = activeIndex + direction;
+      if (next >= 0 && next < categories.length) goToCategory(next);
+      setTimeout(() => { isScrolling.current = false; }, 900);
+    };
+
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [searchQuery, activeIndex, goToCategory]);
+
   const cat = categories[activeIndex];
 
   // Search results view
   if (searchQuery) {
     return (
-      <section className="w-full h-screen bg-paper text-ink flex flex-col">
-        <div className="flex items-center justify-between px-8 lg:px-16 pt-24 pb-6 animate-fade-up">
-          <div>
+      <section className="w-full h-dvh bg-paper text-ink flex flex-col">
+        <div className="flex items-center justify-between px-5 sm:px-8 lg:px-16 pt-20 sm:pt-24 pb-4 sm:pb-6 animate-fade-up">
+          <div className="min-w-0 flex-1">
             <p className="text-[0.68rem] font-bold tracking-[0.16em] uppercase text-green-ink mb-1">Results for</p>
-            <h2 className="text-xl lg:text-2xl font-semibold text-ink" style={{ fontFamily: "var(--font-display)" }}>
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-ink truncate" style={{ fontFamily: "var(--font-display)" }}>
               &ldquo;{searchQuery}&rdquo;
             </h2>
           </div>
-          <button onClick={clearSearch} className="text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink/40 hover:text-ink border border-ink/15 hover:border-ink/40 px-4 py-2.5 transition-colors">
+          <button onClick={clearSearch} className="text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/40 hover:text-ink border border-ink/15 hover:border-ink/40 px-3 sm:px-4 py-2 sm:py-2.5 transition-colors flex-shrink-0 ml-4">
             Back
           </button>
         </div>
 
-        <div className="flex-1 flex items-center px-8 lg:px-16 overflow-hidden">
-          <div className="flex gap-5 overflow-x-auto hide-scrollbar pb-6 w-full">
+        <div className="flex-1 flex items-center px-5 sm:px-8 lg:px-16 overflow-hidden">
+          <div className="flex gap-4 sm:gap-5 overflow-x-auto hide-scrollbar pb-6 w-full">
             {results.map((item, i) => (
-              <article key={item.id} className="flex-shrink-0 w-[260px] lg:w-[300px] group cursor-pointer animate-slide-in" style={{ animationDelay: `${i * 70}ms` }}>
-                <div className="aspect-[3/4] mb-4 relative" style={{ backgroundColor: item.color }}>
+              <article key={item.id} className="flex-shrink-0 w-[200px] sm:w-[260px] lg:w-[300px] group cursor-pointer animate-slide-in" style={{ animationDelay: `${i * 70}ms` }}>
+                <div className="aspect-[3/4] mb-3 sm:mb-4 relative" style={{ backgroundColor: item.color }}>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white/15 text-[0.6rem] tracking-[0.3em] uppercase font-bold">{item.boutique}</span>
+                    <span className="text-white/15 text-[0.5rem] sm:text-[0.6rem] tracking-[0.3em] uppercase font-bold">{item.boutique}</span>
                   </div>
                 </div>
-                <h3 className="text-[0.82rem] font-semibold text-ink group-hover:text-ink/50 transition-colors">{item.name}</h3>
-                <p className="text-[0.68rem] text-ink/40 tracking-wide mt-0.5">{item.boutique}</p>
-                <p className="text-[0.82rem] text-ink/70 mt-1 font-medium">{item.price}</p>
+                <h3 className="text-[0.75rem] sm:text-[0.82rem] font-semibold text-ink group-hover:text-ink/50 transition-colors">{item.name}</h3>
+                <p className="text-[0.62rem] sm:text-[0.68rem] text-ink/40 tracking-wide mt-0.5">{item.boutique}</p>
+                <p className="text-[0.75rem] sm:text-[0.82rem] text-ink/70 mt-1 font-medium">{item.price}</p>
               </article>
             ))}
           </div>
         </div>
 
-        <div className="px-8 lg:px-16 pb-8 flex justify-center">
-          <form onSubmit={handleSubmit} className="w-full max-w-[520px] rounded-[30px] overflow-hidden" style={{ border: "1px solid rgba(13,13,13,0.12)", background: "rgba(255,255,255,0.8)", boxShadow: "0 12px 40px rgba(0,0,0,0.08)", backdropFilter: "blur(20px)" }}>
-            <div className="min-h-[56px] grid grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-1.5">
-              <button type="button" className="w-[36px] h-[36px] rounded-full inline-flex items-center justify-center text-ink/50 hover:text-ink hover:bg-ink/5 transition-colors" aria-label="Add context">
+        <div className="px-5 sm:px-8 lg:px-16 pb-6 sm:pb-8 flex justify-center">
+          <form onSubmit={handleSubmit} className="w-full max-w-[520px] rounded-[24px] sm:rounded-[30px] overflow-hidden" style={{ border: "1px solid rgba(13,13,13,0.12)", background: "rgba(255,255,255,0.8)", boxShadow: "0 12px 40px rgba(0,0,0,0.08)", backdropFilter: "blur(20px)" }}>
+            <div className="min-h-[48px] sm:min-h-[56px] grid grid-cols-[auto_1fr_auto] items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1">
+              <button type="button" className="w-[32px] h-[32px] sm:w-[36px] sm:h-[36px] rounded-full inline-flex items-center justify-center text-ink/50 hover:text-ink hover:bg-ink/5 transition-colors" aria-label="Add context">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
               </button>
-              <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search for something else" className="w-full bg-transparent text-ink text-[0.92rem] placeholder:text-ink/35 focus:outline-none" autoComplete="off" />
-              <button type="submit" className="w-[40px] h-[40px] rounded-full inline-flex items-center justify-center bg-ink text-white hover:-translate-y-px transition-all" aria-label="Search">
+              <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search for something else" className="w-full bg-transparent text-ink text-[0.85rem] sm:text-[0.92rem] placeholder:text-ink/35 focus:outline-none" autoComplete="off" />
+              <button type="submit" className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-full inline-flex items-center justify-center bg-ink text-white hover:-translate-y-px transition-all" aria-label="Search">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12h12M13 7l5 5-5 5" /></svg>
               </button>
             </div>
@@ -195,10 +221,10 @@ export default function HeroSection() {
 
   // Category hero view
   const imageEl = (
-    <div className="relative min-h-[50vh] lg:min-h-full overflow-hidden" key={`img-${cat.id}`}>
+    <div className="relative h-[45vh] sm:h-[50vh] lg:h-full overflow-hidden" key={`img-${cat.id}`}>
       <Image
         src={cat.image}
-        alt={cat.title}
+        alt={cat.title.replace("\n", " ")}
         fill
         priority={activeIndex === 0}
         className="object-cover brightness-[0.92] contrast-[1.05] transition-opacity duration-700"
@@ -209,25 +235,25 @@ export default function HeroSection() {
 
   const contentEl = (
     <div
-      className="relative min-h-[50vh] lg:min-h-full flex flex-col items-center justify-center px-8 lg:px-16 transition-colors duration-700"
+      className="relative h-[55vh] sm:h-[50vh] lg:h-full flex flex-col items-center justify-center px-6 sm:px-8 lg:px-16 py-8 transition-colors duration-700"
       key={`panel-${cat.id}`}
       style={{ background: `linear-gradient(135deg, ${cat.panelBg} 0%, ${cat.panelAccent} 100%)` }}
     >
       <div className="w-full max-w-[560px] text-center flex flex-col items-center">
         <h1
-          className="text-[clamp(2.8rem,5vw,4.5rem)] font-bold tracking-[0.04em] uppercase text-ink leading-[1] mb-3 whitespace-pre-line"
+          className="text-[clamp(1.8rem,8vw,4.5rem)] lg:text-[clamp(2.8rem,5vw,4.5rem)] font-bold tracking-[0.04em] uppercase text-ink leading-[1] mb-2 sm:mb-3 whitespace-pre-line"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {cat.title}
         </h1>
-        <p className="text-[1.1rem] italic text-green-ink tracking-[0.06em] mb-10">
+        <p className="text-[0.9rem] sm:text-[1.1rem] italic text-green-ink tracking-[0.06em] mb-6 sm:mb-10">
           {cat.subtitle}
         </p>
 
         {activeIndex === 0 ? (
           <form
             onSubmit={handleSubmit}
-            className="w-full max-w-[520px] rounded-[30px] overflow-hidden"
+            className="w-full max-w-[520px] rounded-[24px] sm:rounded-[30px] overflow-hidden"
             style={{
               border: "1px solid rgba(255,255,255,0.58)",
               background: "linear-gradient(145deg, rgba(255,255,255,0.5), rgba(255,255,255,0.16)), rgba(238,235,221,0.48)",
@@ -235,25 +261,25 @@ export default function HeroSection() {
               backdropFilter: "blur(28px) saturate(1.35)",
             }}
           >
-            <div className="h-[46px] px-4 flex items-center justify-between border-b border-ink/[0.08]">
-              <span className="text-ink/60 text-[0.82rem] font-semibold tracking-[0.01em]">Butik intelligence</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-ink/60"><path d="m9 6 6 6-6 6" /></svg>
+            <div className="h-[40px] sm:h-[46px] px-3 sm:px-4 flex items-center justify-between border-b border-ink/[0.08]">
+              <span className="text-ink/60 text-[0.75rem] sm:text-[0.82rem] font-semibold tracking-[0.01em]">Butik intelligence</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-ink/60"><path d="m9 6 6 6-6 6" /></svg>
             </div>
-            <div className="min-h-[62px] grid grid-cols-[auto_1fr_auto] items-center gap-2.5 px-2.5 py-2 bg-ink/5">
-              <button type="button" className="w-[38px] h-[38px] rounded-full inline-flex items-center justify-center text-ink/60 hover:text-ink hover:bg-white/40 transition-colors" aria-label="Add context">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+            <div className="min-h-[52px] sm:min-h-[62px] grid grid-cols-[auto_1fr_auto] items-center gap-1.5 sm:gap-2.5 px-2 sm:px-2.5 py-1.5 sm:py-2 bg-ink/5">
+              <button type="button" className="w-[34px] h-[34px] sm:w-[38px] sm:h-[38px] rounded-full inline-flex items-center justify-center text-ink/60 hover:text-ink hover:bg-white/40 transition-colors" aria-label="Add context">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
               </button>
-              <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Ask about the rebirth of commerce" className="w-full bg-transparent text-ink text-[0.98rem] placeholder:text-ink/40 focus:outline-none" autoComplete="off" />
-              <div className="inline-flex items-center gap-2">
+              <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Ask about the rebirth of commerce" className="w-full bg-transparent text-ink text-[0.85rem] sm:text-[0.98rem] placeholder:text-ink/40 focus:outline-none min-w-0" autoComplete="off" />
+              <div className="inline-flex items-center gap-1.5 sm:gap-2">
                 <span className="text-ink text-[0.82rem] font-bold tracking-[0.04em] hidden sm:inline">AI</span>
-                <button type="submit" className="w-[44px] h-[44px] rounded-full inline-flex items-center justify-center bg-ink/90 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_10px_24px_rgba(13,13,13,0.18)] hover:bg-black hover:-translate-y-px transition-all" aria-label="Search">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12h12M13 7l5 5-5 5" /></svg>
+                <button type="submit" className="w-[38px] h-[38px] sm:w-[44px] sm:h-[44px] rounded-full inline-flex items-center justify-center bg-ink/90 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_10px_24px_rgba(13,13,13,0.18)] hover:bg-black hover:-translate-y-px transition-all" aria-label="Search">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12h12M13 7l5 5-5 5" /></svg>
                 </button>
               </div>
             </div>
           </form>
         ) : (
-          <button className="inline-flex items-center gap-2.5 text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink border border-ink px-6 py-3.5 hover:bg-ink hover:text-white transition-all duration-300">
+          <button className="inline-flex items-center gap-2 sm:gap-2.5 text-[0.68rem] sm:text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink border border-ink px-5 sm:px-6 py-3 sm:py-3.5 hover:bg-ink hover:text-white transition-all duration-300">
             Explore
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
           </button>
@@ -263,7 +289,7 @@ export default function HeroSection() {
   );
 
   return (
-    <section ref={containerRef} className="w-full h-screen relative overflow-hidden bg-[#050505]">
+    <section ref={containerRef} className="w-full h-dvh relative overflow-hidden bg-[#050505] touch-none">
       <div className={`w-full h-full grid grid-cols-1 lg:grid-cols-2 transition-opacity duration-600 ${isTransitioning ? "opacity-0" : "opacity-100"}`}>
         {cat.imagePosition === "left" ? (
           <>{imageEl}{contentEl}</>
@@ -276,22 +302,22 @@ export default function HeroSection() {
       </div>
 
       {/* Category dots */}
-      <div className="absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-3">
+      <div className="absolute right-4 sm:right-6 lg:right-10 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2 sm:gap-3">
         {categories.map((c, i) => (
           <button
             key={c.id}
             onClick={() => goToCategory(i)}
             className={`w-1.5 rounded-full transition-all duration-600 ${
-              i === activeIndex ? "h-8 bg-white" : "h-1.5 bg-white/30 hover:bg-white/60"
+              i === activeIndex ? "h-6 sm:h-8 bg-white" : "h-1.5 bg-white/30 hover:bg-white/60"
             }`}
-            aria-label={c.title}
+            aria-label={c.title.replace("\n", " ")}
           />
         ))}
       </div>
 
-      {/* Category label */}
-      <div className="absolute bottom-8 right-6 lg:right-10 z-10">
-        <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-white/40">
+      {/* Category counter */}
+      <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-6 lg:right-10 z-10">
+        <span className="text-[0.55rem] sm:text-[0.6rem] font-bold tracking-[0.2em] uppercase text-white/40">
           {String(activeIndex + 1).padStart(2, "0")} / {String(categories.length).padStart(2, "0")}
         </span>
       </div>
