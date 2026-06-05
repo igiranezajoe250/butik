@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 
 type MenuView = null | "main" | "boutiques" | "about";
@@ -26,46 +26,70 @@ const boutiques = [
   { name: "Ubuzima Wellness", color: "#6a8a6a" },
 ];
 
-const articleSections = [
+const articlePages = [
   {
     num: "01",
-    title: "The words we use for great stores",
-    body: "For a long time, we have associated great stores with certain words — beautiful, modern, luxurious, clean, efficient. Yet many businesses do not struggle because they lack ambition. They struggle because running a store requires carrying too many responsibilities at once.",
+    kicker: "About Butik",
+    title: "What does it mean to run a store in 2026?",
+    subtitle: "And what will it look like in 2035?",
+    body: null,
+    bg: "#F4F6EF",
   },
   {
     num: "02",
-    title: "The burden of running everything",
-    body: "A shop owner must serve customers, manage inventory, negotiate with suppliers, handle deliveries, organize shelves, process payments, market the business, track finances, and somehow find time to think about growth. The reality is that many businesses are operating below their potential because the burden of running everything falls on a small number of people.",
+    kicker: null,
+    title: "The words we use for great stores",
+    subtitle: null,
+    body: "For a long time, we have associated great stores with certain words — beautiful, modern, luxurious, clean, efficient. Yet many businesses do not struggle because they lack ambition. They struggle because running a store requires carrying too many responsibilities at once.",
+    bg: "#F0EDE6",
   },
   {
     num: "03",
-    title: "The idea behind Butik",
-    body: "What if a merchant could focus on serving customers while benefiting from systems, processes, logistics, technology, and operational capabilities that were already proven? We are not asking businesses to become something different. We are helping them become a better version of what they already are.",
+    kicker: null,
+    title: "The burden of running everything",
+    subtitle: null,
+    body: "A shop owner must serve customers, manage inventory, negotiate with suppliers, handle deliveries, organize shelves, process payments, market the business, track finances, and somehow find time to think about growth. The reality is that many businesses are operating below their potential because the burden of running everything falls on a small number of people.",
+    bg: "#EEF2E6",
   },
   {
     num: "04",
-    title: "Commerce is older than software",
-    body: "Commerce is one of humanity's oldest activities. Long before modern companies, software, payment systems, and supply chains, people exchanged goods, built trust, created markets, and formed communities around trade. Commerce has always been more than buying and selling. It is one of the ways people create value for one another.",
+    kicker: null,
+    title: "The idea behind Butik",
+    subtitle: null,
+    body: "What if a merchant could focus on serving customers while benefiting from systems, processes, logistics, technology, and operational capabilities that were already proven? We are not asking businesses to become something different. We are helping them become a better version of what they already are.",
+    bg: "#F4F1E4",
   },
   {
     num: "05",
-    title: "The best technology should be calm",
-    body: "We believe the next chapter of commerce will be shaped by technology, but not by putting more screens, dashboards, and complexity in front of people. The best technology should operate quietly in the background while people focus on serving customers, building relationships, and growing their businesses.",
+    kicker: null,
+    title: "Commerce is older than software",
+    subtitle: null,
+    body: "Commerce is one of humanity’s oldest activities. Long before modern companies, software, payment systems, and supply chains, people exchanged goods, built trust, created markets, and formed communities around trade. Commerce has always been more than buying and selling. It is one of the ways people create value for one another.",
+    bg: "#F0EBE3",
   },
   {
     num: "06",
-    title: "The future is intelligent",
-    body: "Today we are entering a new era where technology is no longer just a tool. It is becoming a participant. Machines can answer questions, assist customers, understand context, recommend products, coordinate operations, and help businesses make decisions. The future is not simply digital. The future is intelligent.",
+    kicker: null,
+    title: "The best technology should be calm",
+    subtitle: null,
+    body: "We believe the next chapter of commerce will be shaped by technology, but not by putting more screens, dashboards, and complexity in front of people. The best technology should operate quietly in the background while people focus on serving customers, building relationships, and growing their businesses.",
+    bg: "#EEF0EA",
   },
   {
     num: "07",
-    title: "Beyond e-commerce",
-    body: "The answer goes beyond e-commerce. It includes physical retail, customer conversations, payments, logistics, inventory, wholesale trade, finance, operations, and the intelligent systems that connect them together. Because commerce does not happen on a website. Commerce happens wherever people exchange value.",
+    kicker: null,
+    title: "The future is intelligent",
+    subtitle: null,
+    body: "Today we are entering a new era where technology is no longer just a tool. It is becoming a participant. Machines can answer questions, assist customers, understand context, recommend products, coordinate operations, and help businesses make decisions. The future is not simply digital. The future is intelligent.",
+    bg: "#F2EDE4",
   },
   {
     num: "08",
+    kicker: null,
     title: "One business at a time",
-    body: "Whatever commerce requires today, and whatever it becomes tomorrow, our goal remains the same: to help businesses participate in that future. To make running a business simpler. To make operations smarter. To make commerce more human. To give every merchant access to capabilities that were once available only to the world's largest retailers.",
+    subtitle: null,
+    body: "Whatever commerce requires today, and whatever it becomes tomorrow, our goal remains the same: to help businesses participate in that future. To make running a business simpler. To make operations smarter. To make commerce more human.",
+    bg: "#F4F6EF",
   },
 ];
 
@@ -79,9 +103,7 @@ export default function Header() {
       {/* Brand card */}
       <div className="fixed top-6 left-6 lg:top-8 lg:left-8 z-30 min-w-[220px] lg:min-w-[260px] bg-white text-ink flex items-center justify-between px-5 py-3.5 shadow-[0_16px_36px_rgba(0,0,0,0.16)] border border-black/5">
         <Link href="/" onClick={closeMenu}>
-          <span className="text-[0.95rem] lg:text-[1.05rem] font-bold tracking-[0.15em] uppercase" style={{ fontFamily: "var(--font-display)" }}>
-            Butik
-          </span>
+          <span className="text-[0.95rem] lg:text-[1.05rem] font-bold tracking-[0.15em] uppercase" style={{ fontFamily: "var(--font-display)" }}>Butik</span>
         </Link>
         <button
           onClick={() => setMenuView(menuView ? null : "main")}
@@ -107,95 +129,157 @@ export default function Header() {
 
       {/* Menu overlay */}
       {menuView && (
-        <div className="fixed inset-0 z-20 bg-paper text-ink animate-fade-in overflow-y-auto">
-          <div className="min-h-full flex flex-col">
-            <div className="h-20" />
-
-            {menuView === "main" && (
+        <div className="fixed inset-0 z-20 animate-fade-in">
+          {menuView === "main" && (
+            <div className="w-full h-full bg-paper text-ink flex flex-col">
+              <div className="h-20" />
               <nav className="flex-1 flex flex-col justify-center px-10 lg:px-20 gap-6 max-w-[800px]">
-                <button onClick={() => setMenuView("boutiques")} className="text-left text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up" style={{ fontFamily: "var(--font-display)" }}>
-                  Boutiques
-                </button>
-                <button onClick={() => setMenuView("about")} className="text-left text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-100" style={{ fontFamily: "var(--font-display)" }}>
-                  About
-                </button>
-                <Link href="/wallet" onClick={closeMenu} className="text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-200" style={{ fontFamily: "var(--font-display)" }}>
-                  Wallet
-                </Link>
+                <button onClick={() => setMenuView("boutiques")} className="text-left text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up" style={{ fontFamily: "var(--font-display)" }}>Boutiques</button>
+                <button onClick={() => setMenuView("about")} className="text-left text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-100" style={{ fontFamily: "var(--font-display)" }}>About</button>
+                <Link href="/wallet" onClick={closeMenu} className="text-3xl lg:text-5xl font-medium text-ink hover:text-green-ink transition-colors animate-fade-up delay-200" style={{ fontFamily: "var(--font-display)" }}>Wallet</Link>
               </nav>
-            )}
+            </div>
+          )}
 
-            {menuView === "boutiques" && (
-              <div className="flex-1 px-8 lg:px-16 py-10">
-                <button onClick={() => setMenuView("main")} className="text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink/50 hover:text-ink mb-10 transition-colors">
-                  Back
-                </button>
+          {menuView === "boutiques" && (
+            <div className="w-full h-full bg-paper text-ink overflow-y-auto">
+              <div className="h-20" />
+              <div className="px-8 lg:px-16 py-10">
+                <button onClick={() => setMenuView("main")} className="text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink/50 hover:text-ink mb-10 transition-colors">Back</button>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-8 lg:gap-10">
                   {boutiques.map((b, i) => (
-                    <button
-                      key={b.name}
-                      className="flex flex-col items-center gap-3 group cursor-pointer animate-fade-up"
-                      style={{ animationDelay: `${i * 40}ms` }}
-                      onClick={closeMenu}
-                    >
-                      <div
-                        className="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-300"
-                        style={{ backgroundColor: b.color }}
-                      >
-                        <span className="text-white text-sm lg:text-base font-bold tracking-wide">
-                          {b.name.split(" ").map((w) => w[0]).join("")}
-                        </span>
+                    <button key={b.name} className="flex flex-col items-center gap-3 group cursor-pointer animate-fade-up" style={{ animationDelay: `${i * 40}ms` }} onClick={closeMenu}>
+                      <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: b.color }}>
+                        <span className="text-white text-sm lg:text-base font-bold tracking-wide">{b.name.split(" ").map((w) => w[0]).join("")}</span>
                       </div>
-                      <span className="text-[0.7rem] font-semibold tracking-wide text-ink/60 group-hover:text-ink text-center transition-colors leading-tight max-w-[90px]">
-                        {b.name}
-                      </span>
+                      <span className="text-[0.7rem] font-semibold tracking-wide text-ink/60 group-hover:text-ink text-center transition-colors leading-tight max-w-[90px]">{b.name}</span>
                     </button>
                   ))}
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {menuView === "about" && (
-              <div className="flex-1 px-8 lg:px-16 py-10">
-                <button onClick={() => setMenuView("main")} className="text-[0.72rem] font-bold tracking-[0.14em] uppercase text-ink/50 hover:text-ink mb-10 transition-colors">
-                  Back
-                </button>
-
-                <div className="max-w-[1180px] mx-auto flex flex-col gap-16 lg:gap-24 animate-fade-up">
-                  {/* Article hero */}
-                  <header className="grid grid-cols-1 lg:grid-cols-[0.45fr_1fr] gap-8 lg:gap-16 items-end border-t border-ink/10 pt-8 min-h-[40vh]">
-                    <p className="text-[0.72rem] font-bold tracking-[0.16em] uppercase text-green-ink">About Butik</p>
-                    <div>
-                      <h2 className="text-3xl lg:text-[clamp(3rem,7vw,5rem)] font-medium leading-[0.98] max-w-[13ch] mb-4" style={{ fontFamily: "var(--font-display)" }}>
-                        What does it mean to run a store in 2026?
-                      </h2>
-                      <p className="text-base lg:text-lg italic text-green-ink tracking-wide">And what will it look like in 2035?</p>
-                    </div>
-                  </header>
-
-                  {/* Article sections */}
-                  {articleSections.map((s) => (
-                    <section key={s.num} className="grid grid-cols-1 lg:grid-cols-[0.25fr_1fr] gap-4 lg:gap-16 border-t border-ink/10 pt-8">
-                      <span className="text-2xl lg:text-3xl text-ink/25 sticky top-8 self-start" style={{ fontFamily: "var(--font-display)" }}>{s.num}</span>
-                      <div className="max-w-[780px]">
-                        <h3 className="text-2xl lg:text-[clamp(2rem,4vw,3.5rem)] font-medium leading-[1] max-w-[12ch] mb-4" style={{ fontFamily: "var(--font-display)" }}>{s.title}</h3>
-                        <p className="text-sm lg:text-base leading-[1.85] text-[#263126] max-w-[66ch]">{s.body}</p>
-                      </div>
-                    </section>
-                  ))}
-
-                  {/* Closing */}
-                  <section className="border-t border-ink/10 pt-8 pb-16">
-                    <p className="text-2xl lg:text-4xl font-medium text-ink leading-[1.05] max-w-[14ch]" style={{ fontFamily: "var(--font-display)" }}>
-                      That is the future we are building. One business at a time.
-                    </p>
-                  </section>
-                </div>
-              </div>
-            )}
-          </div>
+          {menuView === "about" && (
+            <AboutArticle onBack={() => setMenuView("main")} />
+          )}
         </div>
       )}
     </>
+  );
+}
+
+function AboutArticle({ onBack }: { onBack: () => void }) {
+  const [activePage, setActivePage] = useState(0);
+  const isScrolling = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const goToPage = useCallback((index: number) => {
+    if (index < 0 || index >= articlePages.length) return;
+    setActivePage(index);
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (isScrolling.current) return;
+      if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+      if (Math.abs(e.deltaY) < 10) return;
+
+      e.preventDefault();
+      isScrolling.current = true;
+
+      const direction = e.deltaY > 0 ? 1 : -1;
+      goToPage(activePage + direction);
+
+      setTimeout(() => { isScrolling.current = false; }, 800);
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => container.removeEventListener("wheel", handleWheel);
+  }, [activePage, goToPage]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        goToPage(activePage + 1);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        goToPage(activePage - 1);
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [activePage, goToPage]);
+
+  const page = articlePages[activePage];
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full text-ink overflow-hidden relative"
+      style={{ backgroundColor: page.bg, transition: "background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1)" }}
+    >
+      {/* Back button */}
+      <button
+        onClick={onBack}
+        className="fixed top-6 right-6 lg:top-8 lg:right-8 z-30 text-[0.68rem] font-bold tracking-[0.14em] uppercase text-ink/40 hover:text-ink border border-ink/15 hover:border-ink/40 bg-white/60 backdrop-blur-md px-4 py-2.5 transition-colors"
+      >
+        Close
+      </button>
+
+      {/* Page content */}
+      <div className="w-full h-full flex items-center justify-center px-10 lg:px-20" key={activePage}>
+        <div className="max-w-[900px] w-full animate-fade-up">
+          {page.kicker && (
+            <p className="text-[0.72rem] font-bold tracking-[0.16em] uppercase text-green-ink mb-6">{page.kicker}</p>
+          )}
+
+          <div className="flex items-start gap-8 lg:gap-16">
+            <span className="text-4xl lg:text-6xl text-ink/15 font-medium flex-shrink-0 leading-none" style={{ fontFamily: "var(--font-display)" }}>
+              {page.num}
+            </span>
+            <div className="flex-1">
+              <h2
+                className="text-3xl lg:text-[clamp(2.5rem,5vw,4.5rem)] font-medium leading-[1] max-w-[14ch] mb-6"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                {page.title}
+              </h2>
+              {page.subtitle && (
+                <p className="text-lg italic text-green-ink tracking-wide">{page.subtitle}</p>
+              )}
+              {page.body && (
+                <p className="text-sm lg:text-base leading-[1.85] text-[#263126] max-w-[60ch] mt-4">{page.body}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Progress indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2">
+        {articlePages.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goToPage(i)}
+            className={`rounded-full transition-all duration-500 ${
+              i === activePage ? "w-8 h-1.5 bg-ink/60" : "w-1.5 h-1.5 bg-ink/15 hover:bg-ink/30"
+            }`}
+            aria-label={`Page ${i + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Page counter */}
+      <div className="absolute bottom-8 right-10">
+        <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-ink/30">
+          {String(activePage + 1).padStart(2, "0")} / {String(articlePages.length).padStart(2, "0")}
+        </span>
+      </div>
+    </div>
   );
 }
