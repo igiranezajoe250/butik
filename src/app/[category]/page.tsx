@@ -110,18 +110,18 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
     <div className="min-h-dvh bg-paper text-ink">
       <Header />
 
-      <main className="pt-20 sm:pt-24 pb-32">
-        <div className="px-5 sm:px-8 lg:px-16 max-w-[1440px] mx-auto">
-          <div className="mb-8 sm:mb-12 animate-fade-up">
-            <p className="text-[0.6rem] sm:text-[0.65rem] font-semibold tracking-[0.25em] uppercase text-ink/25 mb-2">{data.subtitle}</p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-ink" style={{ fontFamily: "var(--font-display)" }}>{data.title}</h2>
+      <main className="pt-20 sm:pt-24 pb-28 sm:pb-32">
+        <div className="px-4 sm:px-8 lg:px-16 max-w-[1440px] mx-auto">
+          <div className="mb-6 sm:mb-10 lg:mb-12 animate-fade-up">
+            <p className="text-[0.58rem] sm:text-[0.62rem] lg:text-[0.65rem] font-semibold tracking-[0.25em] uppercase text-ink/25 mb-1.5 sm:mb-2">{data.subtitle}</p>
+            <h2 className="text-xl sm:text-2xl lg:text-4xl font-normal text-ink" style={{ fontFamily: "var(--font-display)" }}>{data.title}</h2>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-8">
             {data.items.map((item, i) => (
               <article
                 key={item.id}
-                className="group cursor-pointer animate-fade-up rounded-2xl overflow-hidden"
+                className="group cursor-pointer animate-fade-up rounded-xl sm:rounded-2xl overflow-hidden"
                 style={{
                   animationDelay: `${i * 80}ms`,
                   background: "rgba(255,255,255,0.45)",
@@ -139,10 +139,10 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
                     loading="lazy"
                   />
                 </div>
-                <div className="p-3 sm:p-5">
-                  <h3 className="text-[0.72rem] sm:text-[0.82rem] font-medium text-ink group-hover:text-ink/50 transition-colors duration-200">{item.name}</h3>
-                  <p className="text-[0.56rem] sm:text-[0.64rem] text-ink/30 tracking-[0.02em] mt-1">{item.boutique}</p>
-                  <p className="text-[0.72rem] sm:text-[0.82rem] text-ink/70 mt-2 font-medium tabular-nums">{item.price}</p>
+                <div className="p-2.5 sm:p-4 lg:p-5">
+                  <h3 className="text-[0.68rem] sm:text-[0.76rem] lg:text-[0.82rem] font-medium text-ink leading-snug group-hover:text-ink/50 transition-colors duration-200">{item.name}</h3>
+                  <p className="text-[0.52rem] sm:text-[0.58rem] lg:text-[0.64rem] text-ink/30 tracking-[0.02em] mt-0.5 sm:mt-1">{item.boutique}</p>
+                  <p className="text-[0.68rem] sm:text-[0.76rem] lg:text-[0.82rem] text-ink/70 mt-1.5 sm:mt-2 font-medium tabular-nums">{item.price}</p>
                 </div>
               </article>
             ))}

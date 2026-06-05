@@ -107,7 +107,7 @@ export default function CartPage() {
                           animationDelay: `${i * 80}ms`,
                         }}
                       >
-                        <div className="w-20 h-24 sm:w-22 sm:h-28 flex-shrink-0 rounded-xl overflow-hidden" style={{ backgroundColor: item.color }}>
+                        <div className="w-20 h-24 sm:w-24 sm:h-28 flex-shrink-0 rounded-xl overflow-hidden" style={{ backgroundColor: item.color }}>
                           <div className="w-full h-full flex items-center justify-center">
                             <span className="text-white/15 text-[0.42rem] tracking-[0.2em] uppercase font-bold">{item.boutique}</span>
                           </div>
