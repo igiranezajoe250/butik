@@ -14,24 +14,6 @@ const categories = [
     panelAccent: "#E3DDC8",
   },
   {
-    id: "cosmetics",
-    title: "COSMETICS",
-    subtitle: "Stay beautiful",
-    image: "/cosmetics.png",
-    imagePosition: "right" as const,
-    panelBg: "#FAF5F0",
-    panelAccent: "#EDE3D6",
-  },
-  {
-    id: "skincare",
-    title: "SKIN CARE",
-    subtitle: "Glow naturally",
-    image: "/skincare.png",
-    imagePosition: "left" as const,
-    panelBg: "#EEF2E6",
-    panelAccent: "#D4DFC2",
-  },
-  {
     id: "fashion",
     title: "FASHION",
     subtitle: "Wear the culture",
@@ -41,31 +23,58 @@ const categories = [
     panelAccent: "#DDD3C4",
   },
   {
-    id: "jewels",
-    title: "JEWELS",
-    subtitle: "Adorn yourself",
-    image: "/jewels.png",
+    id: "beauty",
+    title: "BEAUTY",
+    subtitle: "Pure radiance",
+    image: "/cosmetics.png",
     imagePosition: "left" as const,
-    panelBg: "#F5F0EA",
-    panelAccent: "#E8DDD0",
+    panelBg: "#FAF5F0",
+    panelAccent: "#EDE3D6",
+  },
+  {
+    id: "skincare",
+    title: "SKIN CARE",
+    subtitle: "Glow naturally",
+    image: "/skincare.png",
+    imagePosition: "right" as const,
+    panelBg: "#EEF2E6",
+    panelAccent: "#D4DFC2",
   },
   {
     id: "fragrance",
     title: "FRAGRANCE",
     subtitle: "Essence of nature",
     image: "/boutiques.png",
-    imagePosition: "right" as const,
+    imagePosition: "left" as const,
     panelBg: "#EDE8E0",
     panelAccent: "#DDD6CA",
   },
   {
-    id: "beauty",
-    title: "BEAUTY",
-    subtitle: "Pure radiance",
+    id: "jewelry",
+    title: "JEWELRY &\nACCESSORIES",
+    subtitle: "Adorn yourself",
+    image: "/jewels.png",
+    imagePosition: "right" as const,
+    panelBg: "#F5F0EA",
+    panelAccent: "#E8DDD0",
+  },
+  {
+    id: "personalcare",
+    title: "PERSONAL CARE",
+    subtitle: "Nourish within",
     image: "/items.png",
     imagePosition: "left" as const,
     panelBg: "#E6EDE8",
     panelAccent: "#D0DDD6",
+  },
+  {
+    id: "lifestyle",
+    title: "LIFESTYLE",
+    subtitle: "Live beautifully",
+    image: "/hero.png",
+    imagePosition: "right" as const,
+    panelBg: "#F2EDE4",
+    panelAccent: "#E4DCD0",
   },
 ];
 
@@ -206,7 +215,7 @@ export default function HeroSection() {
     >
       <div className="w-full max-w-[560px] text-center flex flex-col items-center">
         <h1
-          className="text-[clamp(2.8rem,5vw,4.5rem)] font-bold tracking-[0.04em] uppercase text-ink leading-[1] mb-3"
+          className="text-[clamp(2.8rem,5vw,4.5rem)] font-bold tracking-[0.04em] uppercase text-ink leading-[1] mb-3 whitespace-pre-line"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {cat.title}
