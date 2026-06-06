@@ -135,7 +135,7 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                     loading="lazy"
                   />
                 </div>

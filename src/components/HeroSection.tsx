@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ const results = [
 
 type SearchMode = "text" | "voice" | "image" | "video" | "live";
 
-const modeIcons: Record<SearchMode, JSX.Element> = {
+const modeIcons: Record<SearchMode, ReactNode> = {
   text: <path d="M21 21l-4.35-4.35M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />,
   voice: <><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><line x1="12" y1="19" x2="12" y2="22" /></>,
   image: <><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" /></>,
@@ -148,7 +148,7 @@ export default function HeroSection() {
               <article key={`${item.id}-${i}`} className="flex-shrink-0 w-[160px] sm:w-[240px] lg:w-[280px] group cursor-pointer animate-slide-in rounded-2xl overflow-hidden" style={{ animationDelay: `${i * 70}ms`, background: "rgba(255,255,255,0.45)", backdropFilter: "blur(16px)", border: "1px solid rgba(17,17,16,0.04)", boxShadow: "0 4px 20px rgba(0,0,0,0.03)" }}>
                 <div className="aspect-[3/4] relative overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 </div>
                 <div className="p-3 sm:p-4 lg:p-5">
                   <h3 className="text-[0.7rem] sm:text-[0.78rem] lg:text-[0.82rem] font-medium text-ink leading-snug group-hover:text-ink/50 transition-colors duration-200">{item.name}</h3>
@@ -178,7 +178,7 @@ export default function HeroSection() {
           alt={cat.title.replace("\n", " ")}
           fill
           priority={activeIndex === 0}
-          className="object-cover brightness-[0.88] contrast-[1.05]"
+          className="object-cover object-top brightness-[0.88] contrast-[1.05]"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/40" />
